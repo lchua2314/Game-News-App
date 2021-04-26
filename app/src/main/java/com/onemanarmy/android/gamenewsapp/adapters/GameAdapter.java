@@ -79,9 +79,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
         public void bind(Game game) {
             tvTitle.setText(game.getTitle());
-            // TODO: Deck not showing; non-API error
             tvDeck.setText(game.getDeck());
-            /*
+
             String imageUrl;
             // If phone is in landscape
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -101,7 +100,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                     .error(R.drawable.imagenotfound)
                     .transform(new RoundedCornersTransformation(radius, margin))
                     .into(tvPoster);
-             */
 
             // 1. Register click listener on the whole row
             container.setOnClickListener((View.OnClickListener) v -> {

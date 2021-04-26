@@ -12,21 +12,21 @@ import java.util.List;
 public class Game {
 
     int gameId;
-    // String backdropPath;
-    // String posterPath;
+    String backdropPath;
+    String posterPath;
     String title;
     String deck;
-    // double rating;
 
     // empty constructor needed by the Parceler library
     public Game() {}
 
     public Game(JSONObject jsonObject) throws JSONException {
-        // backdropPath = jsonObject.getString("backdrop_path");
-        // posterPath = jsonObject.getString("poster_path");
+        JSONObject image = jsonObject.getJSONObject("image");
+        backdropPath = image.getString("square_small");
+        posterPath = image.getString("square_tiny");
+
         title = jsonObject.getString("title");
         deck = jsonObject.getString("deck");
-        // rating = jsonObject.getDouble("vote_average");
         gameId = jsonObject.getInt("id");
     }
 
@@ -38,15 +38,13 @@ public class Game {
         return games;
     }
 
-    /*
     public String getPosterPath() {
-        return String.format("https://image.tmdb.org/t/p/w342/%s", posterPath);
+        return posterPath;
     }
 
     public String getBackdropPath() {
-        return String.format("https://image.tmdb.org/t/p/w342/%s", backdropPath);
+        return backdropPath;
     }
-     */
 
     public String getTitle() {
         return title;
@@ -55,8 +53,6 @@ public class Game {
     public String getDeck() {
         return deck;
     }
-
-    // public double getRating() { return rating; }
 
     public int getGameId() { return gameId; }
 }
