@@ -66,20 +66,22 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
         RelativeLayout container;
         TextView tvTitle;
-        TextView tvOverview;
+        TextView tvDeck;
         ImageView tvPoster;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvOverview = itemView.findViewById(R.id.tvOverview);
+            tvDeck = itemView.findViewById(R.id.tvDeck);
             tvPoster = itemView.findViewById(R.id.tvPoster);
             container = itemView.findViewById(R.id.container);
         }
 
         public void bind(Game game) {
             tvTitle.setText(game.getTitle());
-            tvOverview.setText(game.getOverview());
+            // TODO: Deck not showing; non-API error
+            tvDeck.setText(game.getDeck());
+            /*
             String imageUrl;
             // If phone is in landscape
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -99,6 +101,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                     .error(R.drawable.imagenotfound)
                     .transform(new RoundedCornersTransformation(radius, margin))
                     .into(tvPoster);
+             */
 
             // 1. Register click listener on the whole row
             container.setOnClickListener((View.OnClickListener) v -> {
