@@ -65,8 +65,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout container;
-        TextView tvTitle;
-        TextView tvDeck;
+        TextView tvTitle, tvDeck, tvAuthors, tvPublishDate;
         ImageView tvPoster;
 
         public ViewHolder(@NonNull View itemView) {
@@ -74,12 +73,16 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDeck = itemView.findViewById(R.id.tvDeck);
             tvPoster = itemView.findViewById(R.id.tvPoster);
+            tvAuthors = itemView.findViewById(R.id.tvAuthors);
+            tvPublishDate = itemView.findViewById(R.id.tvPublishDate);
             container = itemView.findViewById(R.id.container);
         }
 
         public void bind(Game game) {
             tvTitle.setText(game.getTitle());
             tvDeck.setText(game.getDeck());
+            tvAuthors.setText(game.getAuthors());
+            tvPublishDate.setText(game.getFormattedPublishDate());
 
             String imageUrl;
             // If phone is in landscape

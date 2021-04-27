@@ -22,20 +22,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="4dp"
         android:layout_toEndOf="@+id/tvPoster"
         android:textColor="#EEEEEE"
         android:textSize="14sp"
         android:typeface="serif"
+        android:ellipsize="end"
+        android:maxLines="3"
         tools:text="Nomadland Wins Three Oscars At 93rd Academy Awards" />
 
-    <!-- Might have issues wrap_content height -->
     <TextView
         android:id="@+id/tvDeck"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:layout_alignBottom="@+id/tvPoster"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="-2dp"
@@ -43,5 +43,33 @@
         android:textColor="#EEEEEE"
         android:textSize="11sp"
         android:typeface="serif"
+        android:ellipsize="end"
+        android:maxLines="3"
         tools:text="Nomadland was the most-winning film for this year's Oscars." />
+
+    <TextView
+        android:id="@+id/tvAuthors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvPoster"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_toEndOf="@+id/tvPoster"
+        android:textColor="#EEEEEE"
+        android:textSize="11sp"
+        android:typeface="serif"
+        tools:text="Eddie Makuch" />
+
+    <TextView
+        android:id="@+id/tvPublishDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvPoster"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:textColor="#EEEEEE"
+        android:textSize="11sp"
+        android:typeface="serif"
+        tools:text="1hr ago" />
 </RelativeLayout>
