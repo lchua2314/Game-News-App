@@ -1,6 +1,9 @@
 package com.onemanarmy.android.gamenewsapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +19,8 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class DetailActivity extends AppCompatActivity {
 
     TextView tvTitle, tvDeck, tvAuthors, tvPublishDate, tvBody;
-    ImageView tvPoster;
+    Button btnSiteDetailUrl;
+    ImageView ivPoster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +31,9 @@ public class DetailActivity extends AppCompatActivity {
         tvDeck = findViewById(R.id.tvDeck);
         tvAuthors = findViewById(R.id.tvAuthors);
         tvPublishDate = findViewById(R.id.tvPublishDate);
-        tvPoster = findViewById(R.id.tvPoster);
+        ivPoster = findViewById(R.id.ivPoster);
         tvBody = findViewById(R.id.tvBody);
+        btnSiteDetailUrl = findViewById(R.id.btnSiteDetailUrl);
 
         Game game = Parcels.unwrap(getIntent().getParcelableExtra("game"));
         tvTitle.setText(game.getTitle());
@@ -36,6 +41,13 @@ public class DetailActivity extends AppCompatActivity {
         tvAuthors.setText(game.getAuthors());
         tvBody.setText(game.getBody());
         tvPublishDate.setText(game.getFormattedPublishDate());
+        btnSiteDetailUrl.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+            intent.setData(Uri.parse(game.getSiteDetailUrl()));
+            startActivity(intent);
+        });
 
         String imageUrl = game.getOriginalPosterPath();
 
@@ -47,6 +59,6 @@ public class DetailActivity extends AppCompatActivity {
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.imagenotfound)
                 .transform(new RoundedCornersTransformation(radius, margin))
-                .into(tvPoster);
+                .into(ivPoster);
     }
 }

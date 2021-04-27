@@ -104,4 +104,6 @@ public class Game {
     }
 
     public String getBody() { return body; }
+
+    public String getSiteDetailUrl() { return siteDetailUrl; }
 }

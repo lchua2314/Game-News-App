@@ -66,13 +66,13 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
         RelativeLayout container;
         TextView tvTitle, tvDeck, tvAuthors, tvPublishDate;
-        ImageView tvPoster;
+        ImageView ivPoster;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDeck = itemView.findViewById(R.id.tvDeck);
-            tvPoster = itemView.findViewById(R.id.tvPoster);
+            ivPoster = itemView.findViewById(R.id.ivPoster);
             tvAuthors = itemView.findViewById(R.id.tvAuthors);
             tvPublishDate = itemView.findViewById(R.id.tvPublishDate);
             container = itemView.findViewById(R.id.container);
@@ -102,7 +102,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                     .placeholder(R.drawable.placeholder)
                     .error(R.drawable.imagenotfound)
                     .transform(new RoundedCornersTransformation(radius, margin))
-                    .into(tvPoster);
+                    .into(ivPoster);
 
             // 1. Register click listener on the whole row
             container.setOnClickListener((View.OnClickListener) v -> {
