@@ -71,5 +71,5 @@
         android:textColor="#EEEEEE"
         android:textSize="11sp"
         android:typeface="serif"
-        tools:text="1hr ago" />
+        tools:text="1 hour ago" />
 </RelativeLayout>

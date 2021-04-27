@@ -1,35 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DetailActivity"
-    android:orientation="vertical"
-    android:background="#000111"
-    android:transitionName="games"
-    android:layout_margin="5dp">
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#EEEEEE">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"/>
-
-    <TextView
-        android:id="@+id/tvTitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textColor="#EEEEEE"
-        android:typeface="serif"
-        tools:text="Nomadland Wins Three Oscars At 93rd Academy Awards" />
+        android:layout_height="match_parent"
+        tools:context=".DetailActivity"
+        android:orientation="vertical"
+        android:background="#000111"
+        android:transitionName="games"
+        android:layout_margin="5dp">
 
-    <TextView
-        android:id="@+id/tvDeck"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#EEEEEE"
-        android:typeface="serif"
-        tools:text="Nomadland was the most-winning film for this year's Oscars." />
+        <ImageView
+            android:id="@+id/tvPoster"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="#EEEEEE"
+            android:typeface="serif"
+            tools:text="Nomadland Wins Three Oscars At 93rd Academy Awards" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tvDeck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#EEEEEE"
+            android:typeface="serif"
+            tools:text="Nomadland was the most-winning film for this year's Oscars." />
+
+        <TextView
+            android:id="@+id/tvAuthors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#EEEEEE"
+            android:typeface="serif"
+            tools:text="Eddie Makuch" />
+
+        <TextView
+            android:id="@+id/tvPublishDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#EEEEEE"
+            android:typeface="serif"
+            tools:text="1 hour ago" />
+
+        <TextView
+            android:id="@+id/tvBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#EEEEEE"
+            android:typeface="serif"
+            tools:text="Nomadland was the most-winning film for this year's Oscars.
+    Nomadland was the most-winning film for this year's Oscars.
+    Nomadland was the most-winning film for this year's Oscars.
+    Nomadland was the most-winning film for this year's Oscars." />
+    </LinearLayout>
+</ScrollView>
