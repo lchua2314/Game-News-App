@@ -82,7 +82,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             tvTitle.setText(game.getTitle());
             tvDeck.setText(game.getDeck());
             tvAuthors.setText(game.getAuthors());
-            tvPublishDate.setText(game.getFormattedPublishDate());
+            tvPublishDate.setText(game.getPublishDateTimeFromNow());
 
             String imageUrl;
             // If phone is in landscape

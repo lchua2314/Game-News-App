@@ -40,7 +40,7 @@ public class DetailActivity extends AppCompatActivity {
         tvDeck.setText(game.getDeck());
         tvAuthors.setText(game.getAuthors());
         tvBody.setText(game.getBody());
-        tvPublishDate.setText(game.getFormattedPublishDate());
+        tvPublishDate.setText(game.getPublishDateToHumanReadable());
         btnSiteDetailUrl.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);
