@@ -91,7 +91,7 @@ public class Game {
     private String formatDate(String date) {
         // https://stackoverflow.com/questions/35858608/how-to-convert-time-to-time-ago-in-android
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // Original Format: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        sdf.setTimeZone(TimeZone.getTimeZone("PDT"));
+        // sdf.setTimeZone(TimeZone.getTimeZone("GWT")); // Commented out because it messes up the timezone +7 hours.
         try {
             long time = sdf.parse(date).getTime();
             long now = System.currentTimeMillis();
