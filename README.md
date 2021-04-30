@@ -22,52 +22,66 @@ Scrolls through various video game and movie news articles, the latest game revi
 
 **Required Must-have Stories**
 
-* User logs in to access previous chats and preference settings
-* User picks what their favorite artist/genre/etc. (Think Spotify interface)
-* Matches have a chat window to get to know each other, with the ability to skip music and unmatch (Tinder Style).
-* Profile pages for each user
-* Settings (Accesibility, Notification, General, etc.)
+- [ ] User scrolls through the latest GameSpot articles and can view articles that are selected.
+- [ ] User navigates to the latest GameSpot game reviews, top reviews, and random videos (and can navigate back to articles).
+- [ ] User scrolls through the latest GameSpot game reviews and can view reviews that are selected.
+- [ ] User scrolls through the top GameSpot game reviews and can view reviews that are selected.
+- [ ] User scrolls through random videos and can watch videos that are selected.
 
 **Optional Nice-to-have Stories**
 
-* Log of past songs/people with album art covers matching
-* Page of most played songs (i.e. songs that most users are connecting through)
-* Profile Add-On: Top music choices, etc.
-* Optional Shuffle Button (i.e. random encounter/random song)
-* Listening/Encounter Queue
+- [ ] User can drag down at the top of one of the scrolls to refresh to check for more articles/reviews/videos.
+- [ ] "Infinite" pagination (limited due to GameSpot API of 100 IDs)
+- [ ] Favorites tab that can store any articles/reviews/videos that the user can store on their device or a backend database.
+- [ ] Search bar for each category.
+- [ ] User can select different quality videos in the Videos Screen.
+- [ ] Settings tab that the user can set certain settings such as light/dark mode, text font, themes, etc.
 
 ### 2. Screen Archetypes
 
-* Login 
-* Register - User signs up or logs into their account
-   * Upon Download/Reopening of the application, the user is prompted to log in to gain access to their profile information to be properly matched with another person. 
-   * ...
-* Messaging Screen - Chat for users to communicate (direct 1-on-1)
-   * Upon selecting music choice users matched and message screen opens
-* Profile Screen 
-   * Allows user to upload a photo and fill in information that is interesting to them and others
-* Song Selection Screen.
-   * Allows user to be able to choose their desired song, artist, genre of preference and begin listening and interacting with others.
-* Settings Screen
-   * Lets people change language, and app notification settings.
+* Articles Screen
+   * Calls a GET request to obtain and display the latest 20 articles' title, description/deck, author name, and time ago since publish time.
+   * Loads the article image when user scrolls it into view.
+* Articles Detail Screen
+   * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, and body.
+   * User can press a button to open a web browser and goes to the GameSpot article.
+* Latest Game Reviews Screen
+   * Calls a GET request to obtain and display the latest 20 game reviews' title, description/deck, author name, time ago since publish time and score.
+   * Loads the article image when user scrolls it into view.
+* Latest Game Reviews Detail Screen
+   * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, body and score.
+   * User can press a button to open a web browser and goes to the GameSpot review.
+* Top Rated Game Reviews Screen
+   * Calls a GET request to obtain and display the highest scored top 20 game reviews' title, description/deck, author name, time ago since publish time and score.
+   * Loads the article image when user scrolls it into view.
+* Top Rated Game Reviews Detail Screen
+   * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, body and score.
+   * User can press a button to open a web browser and goes to the GameSpot review.
+* Videos Screen
+   * Calls a GET request to obtain and display the latest 20 videos' title, description/deck, and time ago since publish time.
+   * Loads the article image when user scrolls it into view.
+* Videos Detail Screen
+   * Loads and displays the high quality video, title, description/deck, publish date and time based on timezone, and body.
+   * User can press a button to open a web browser and goes to the GameSpot's source of the displayed video.
 
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
-* Music selection
-* Profile
-* Settings
+* Article Selection
+* Latest Game Reviews Selection
+* Top Rated Game Reviews Selection
+* Videos Selection
 
 Optional:
-* Music/Encounter Queue
-* Discover (Top Choices)
+* Favorites
+* Settings
 
 **Flow Navigation** (Screen to Screen)
-* Forced Log-in -> Account creation if no log in is available
-* Music Selection (Or Queue if Optional) -> Jumps to Chat
-* Profile -> Text field to be modified. 
-* Settings -> Toggle settings
+* Initial Starting Screen, Article Selection -> Article Detail View -> Open web browser to GameSpot article
+* Latest Game Reviews Selection -> Latest Game Reviews Detail View -> Open web browser to GameSpot reivew
+* Top Rated Game Reviews Selection -> Top Rated Game Reviews Detail View -> Open web browser to GameSpot reivew
+* Videos Selection -> Videos Detail View -> Open web browser to GameSpot article/review
 
 ## Wireframes
 <img src="https://i.imgur.com/9CrjH1K.jpg" width=800><br>
