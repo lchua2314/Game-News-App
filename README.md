@@ -22,7 +22,7 @@ Scrolls through various video game and movie news articles, the latest game revi
 
 **Required Must-have Stories**
 
-- [ ] User scrolls through the latest GameSpot articles and can view articles that are selected.
+- [X] User scrolls through the latest GameSpot articles and can view articles that are selected.
 - [ ] User navigates to the latest GameSpot game reviews, top reviews, and random videos (and can navigate back to articles).
 - [ ] User scrolls through the latest GameSpot game reviews and can view reviews that are selected.
 - [ ] User scrolls through the top GameSpot game reviews and can view reviews that are selected.
