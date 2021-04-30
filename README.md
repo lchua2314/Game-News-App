@@ -8,7 +8,7 @@
 
 ## Overview
 ### Description
-Scrolls through various video game and movie news articles, the latest game reviews, top game reviews, and random videos provided by the [GameSpot API](#https://www.gamespot.com/api/).
+Scrolls through various video game and movie news articles, the latest game reviews, top game reviews, and random videos provided by the [GameSpot API](https://www.gamespot.com/api/).
 
 ### App Evaluation
 - **Category:** Video Games / Movies
