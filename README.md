@@ -8,15 +8,14 @@
 
 ## Overview
 ### Description
-Tracks what music an individual listens to, and pairs them with others based on that music. Could be potentially used as a dating app, or just meeting new friends with similar music tastes.
+Scrolls through various video game and movie news articles, the latest game reviews, top game reviews, and random videos provided by the [GameSpot API](#https://www.gamespot.com/api/).
 
 ### App Evaluation
-- **Category:** Social Networking / Music
-- **Mobile:** This app would be primarily developed for mobile but would perhaps be just as viable on a computer, such as tinder or other similar apps. Functionality wouldn't be limited to mobile devices, however mobile version could potentially have more features.
-- **Story:** Analyzes users music choices, and connects them to other users with similar choices. The user can then decide to message this person and befriend them if wanted.
-- **Market:** Any individual could choose to use this app, and to keep it a safe environment, people would be organized into age groups.
-- **Habit:** This app could be used as often or unoften as the user wanted depending on how deep their social life is, and what exactly they're looking for.
-- **Scope:** First we would start with pairing people based on music taste, then perhaps this could evolve into a music sharing application as well to broaden its usage. Large potential for use with spotify, apple music, or other music streaming applications.
+- **Category:** Video Games / Movies
+- **Story:** Displays the latest articles based on video games and movies, and the top and latest game reviews. The user can decide what articles, reviews, or videos to view in more detail.
+- **Market:** Any individual could use this app, but the majority of users will most likely be gamers.
+- **Habit:** This app could be used as often or unoften as the user wanted depending on how often their interest in the latest game articles and reviews. 
+- **Scope:** The app will attempt to be placed on the Google Play Store for non-commercial use, however after that the app will not receive updates due to GameSpot's API terms of use denying users of making a competing product.
 
 ## Product Spec
 ### 1. User Stories (Required and Optional)
