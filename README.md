@@ -84,12 +84,13 @@ Optional:
 * Videos Selection -> Videos Detail View -> Open web browser to GameSpot article/review
 
 ## Wireframes
-<img src="https://i.imgur.com/9CrjH1K.jpg" width=800><br>
+### Digital Wireframes & Mockups
+<img src="wireframeArticles.png"><br>
+<img src="wireframeLatestReviews.png"><br>
+<img src="wireframeTopReviews.png"><br>
+<img src="wireframeVideos.png"><br>
 
-### [BONUS] Digital Wireframes & Mockups
-<img src="https://i.imgur.com/lYHn37F.jpg" height=200>
-
-### [BONUS] Interactive Prototype
+### Interactive Prototype
 <img src="imgurhere" width=200>
 
 ## Schema 
