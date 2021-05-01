@@ -85,14 +85,14 @@ Optional:
 
 ## Wireframes
 ### Digital Wireframes & Mockups
-#### [View Figma Wireframe](https://www.figma.com/file/Ngljge013iCNdjGYGnfkyh/Game-News-App?node-id=0%3A1)
+#### [View Wireframe on Figma](https://www.figma.com/file/Ngljge013iCNdjGYGnfkyh/Game-News-App?node-id=0%3A1)
 <img src="wireframeArticles.png"><br>
 <img src="wireframeLatestReviews.png"><br>
 <img src="wireframeTopReviews.png"><br>
 <img src="wireframeVideos.png"><br>
 
 ### Interactive Prototype
-#### [View Figma Wireframe](https://www.figma.com/proto/Ngljge013iCNdjGYGnfkyh/Game-News-App?scaling=scale-down&page-id=0%3A1&node-id=1%3A2)
+#### [View Wireframe on Figma](https://www.figma.com/proto/Ngljge013iCNdjGYGnfkyh/Game-News-App?scaling=scale-down&page-id=0%3A1&node-id=1%3A2)
 <img src="walkthroughInteractiveWireFrame.gif">
 
 ## Schema 
