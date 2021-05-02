@@ -14,18 +14,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 @Parcel
-public class Game {
+public class Articles {
 
     String backdropPath, posterPath, originalPosterPath,
             title, deck, authors, publishDate, body, siteDetailUrl;
 
     // empty constructor needed by the Parceler library
-    public Game() {}
+    public Articles() {}
 
-    public Game(JSONObject jsonObject) throws JSONException {
+    public Articles(JSONObject jsonObject) throws JSONException {
         JSONObject image = jsonObject.getJSONObject("image");
         backdropPath = image.getString("square_small");
         posterPath = image.getString("square_tiny");
@@ -49,12 +48,12 @@ public class Game {
         siteDetailUrl = jsonObject.getString("site_detail_url");
     }
 
-    public static List<Game> fromJsonArray(JSONArray gameJsonArray) throws JSONException {
-        List<Game> games = new ArrayList<>();
+    public static List<Articles> fromJsonArray(JSONArray gameJsonArray) throws JSONException {
+        List<Articles> articles = new ArrayList<>();
         for (int i = 0; i < gameJsonArray.length(); i++) {
-            games.add(new Game(gameJsonArray.getJSONObject(i)));
+            articles.add(new Articles(gameJsonArray.getJSONObject(i)));
         }
-        return games;
+        return articles;
     }
 
     public String getPosterPath() {

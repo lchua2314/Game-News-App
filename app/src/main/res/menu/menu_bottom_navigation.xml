@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_articles"
+        android:icon="@drawable/ic_article"
+        android:title="Articles"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_latest_reviews"
+        android:icon="@drawable/ic_review"
+        android:title="Latest Reviews"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_top_reviews"
+        android:icon="@drawable/ic_top_review"
+        android:title="Top Reviews"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_videos"
+        android:icon="@drawable/ic_video"
+        android:title="Videos"
+        app:showAsAction="always" />
+</menu>

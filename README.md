@@ -8,13 +8,13 @@
 
 ## Overview
 ### Description
-Scrolls through various video game and movie news articles, the latest game reviews, top game reviews, and random videos provided by the [GameSpot API](https://www.gamespot.com/api/).
+Scrolls through various video articles and movie news articles, the latest articles reviews, top articles reviews, and random videos provided by the [GameSpot API](https://www.gamespot.com/api/).
 
 ### App Evaluation
 - **Category:** Video Games / Movies
-- **Story:** Displays the latest articles based on video games and movies, and the top and latest game reviews. The user can decide what articles, reviews, or videos to view in more detail.
+- **Story:** Displays the latest articles based on video articles and movies, and the top and latest articles reviews. The user can decide what articles, reviews, or videos to view in more detail.
 - **Market:** Any individual could use this app, but the majority of users will most likely be gamers.
-- **Habit:** This app could be used as often or unoften as the user wanted depending on how often their interest in the latest game articles and reviews. 
+- **Habit:** This app could be used as often or unoften as the user wanted depending on how often their interest in the latest articles articles and reviews.
 - **Scope:** The app will attempt to be placed on the Google Play Store for non-commercial use, however after that the app will not receive updates due to GameSpot's API terms of use denying users of making a competing product.
 
 ## Product Spec
@@ -23,9 +23,9 @@ Scrolls through various video game and movie news articles, the latest game revi
 **Required Must-have Stories**
 
 - [X] User scrolls through the latest GameSpot articles and can view articles that are selected.
-- [ ] User navigates to the latest GameSpot game reviews, top reviews, and random videos (and can navigate back to articles).
-- [ ] User scrolls through the latest GameSpot game reviews and can view reviews that are selected.
-- [ ] User scrolls through the top GameSpot game reviews and can view reviews that are selected.
+- [X] User has a navigation bar to transition to the latest GameSpot articles reviews, top reviews, and random videos (and can navigate back to articles).
+- [ ] User scrolls through the latest GameSpot reviews and can view reviews that are selected.
+- [ ] User scrolls through the top GameSpot reviews and can view reviews that are selected.
 - [ ] User scrolls through random videos and can watch videos that are selected.
 
 **Optional Nice-to-have Stories**
@@ -46,13 +46,13 @@ Scrolls through various video game and movie news articles, the latest game revi
    * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, and body.
    * User can press a button to open a web browser and goes to the GameSpot article.
 * Latest Game Reviews Screen
-   * Calls a GET request to obtain and display the latest 20 game reviews' title, description/deck, author name, time ago since publish time and score.
+   * Calls a GET request to obtain and display the latest 20 articles reviews' title, description/deck, author name, time ago since publish time and score.
    * Loads the article image when user scrolls it into view.
 * Latest Game Reviews Detail Screen
    * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, body and score.
    * User can press a button to open a web browser and goes to the GameSpot review.
 * Top Rated Game Reviews Screen
-   * Calls a GET request to obtain and display the highest scored top 20 game reviews' title, description/deck, author name, time ago since publish time and score.
+   * Calls a GET request to obtain and display the highest scored top 20 articles reviews' title, description/deck, author name, time ago since publish time and score.
    * Loads the article image when user scrolls it into view.
 * Top Rated Game Reviews Detail Screen
    * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, body and score.
