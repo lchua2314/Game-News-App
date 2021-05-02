@@ -1,17 +1,22 @@
 package com.onemanarmy.android.gamenewsapp;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.onemanarmy.android.gamenewsapp.fragments.ArticlesFragment;
+import com.onemanarmy.android.gamenewsapp.fragments.LatestReviewsFragment;
 
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
+    private static final String KEY_INDEX = "index";
+    private String tab;
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
@@ -28,22 +33,56 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()) {
                 case R.id.action_articles:
                     fragment = new ArticlesFragment();
+                    tab = "articles";
                     break;
                 case R.id.action_latest_reviews:
-                    fragment = new ArticlesFragment();
+                    fragment = new LatestReviewsFragment();
+                    tab = "latest_reviews";
                     break;
                 case R.id.action_top_reviews:
                     fragment = new ArticlesFragment();
+                    tab = "top_reviews";
                     break;
                 case R.id.action_videos:
                 default:
                     fragment = new ArticlesFragment();
+                    tab = "videos";
                     break;
             }
             fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
             return true;
         });
-        // Set default selection
-        bottomNavigationView.setSelectedItemId(R.id.action_articles);
+
+        // Checks if savedInstanceState is null
+        // This happens because it hasn't been initialized yet
+        // until after first activity is created
+        // If not null, retrieve the tab data
+        // This makes sure the data gets retrieved after configuration changes.
+        if (savedInstanceState != null) {
+            String currentTab = savedInstanceState.getString(KEY_INDEX, "null");
+            switch (currentTab) {
+                case "articles":
+                    bottomNavigationView.setSelectedItemId(R.id.action_articles);
+                    break;
+                case "latest_reviews":
+                    bottomNavigationView.setSelectedItemId(R.id.action_latest_reviews);
+                    break;
+                case "top_reviews":
+                    bottomNavigationView.setSelectedItemId(R.id.action_top_reviews);
+                    break;
+                case "videos":
+                    bottomNavigationView.setSelectedItemId(R.id.action_videos);
+                    break;
+                default:
+                    bottomNavigationView.setSelectedItemId(R.id.action_articles);
+            }
+        } else bottomNavigationView.setSelectedItemId(R.id.action_articles);
+    }
+
+    // Saves what tab the user is on over configuration changes.
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString(KEY_INDEX, tab);
     }
 }

@@ -18,8 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.onemanarmy.android.gamenewsapp.ArticleDetailActivity;
+import com.onemanarmy.android.gamenewsapp.LatestReviewsDetailActivity;
 import com.onemanarmy.android.gamenewsapp.R;
-import com.onemanarmy.android.gamenewsapp.models.Articles;
+import com.onemanarmy.android.gamenewsapp.models.LatestReviews;
 
 import org.parceler.Parcels;
 
@@ -27,45 +28,45 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
+public class LatestReviewsAdapter extends RecyclerView.Adapter<LatestReviewsAdapter.ViewHolder> {
 
     Context context;
-    List<Articles> articles;
+    List<LatestReviews> latestReviews;
 
-    public ArticlesAdapter(Context context, List<Articles> articles) {
+    public LatestReviewsAdapter(Context context, List<LatestReviews> latestReviews) {
         this.context = context;
-        this.articles = articles;
+        this.latestReviews = latestReviews;
     }
 
     // Usually involves inflating a layout from XML and returning the holder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d("ArticlesAdapter", "onCreateViewHolder");
-        View articlesView = LayoutInflater.from(context).inflate(R.layout.item_article, parent, false);
-        return new ViewHolder(articlesView);
+        Log.d("LatestReviewsAdapter", "onCreateViewHolder");
+        View latestReviewsView = LayoutInflater.from(context).inflate(R.layout.item_latest_review, parent, false);
+        return new ViewHolder(latestReviewsView);
     }
 
     // Involves populating data into the item through holder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d("ArticlesAdapter", "onBindViewHolder " + position);
+        Log.d("LatestReviewsAdapter", "onBindViewHolder " + position);
         // Get the game at the passed in position
-        Articles articles = this.articles.get(position);
+        LatestReviews latestReviews = this.latestReviews.get(position);
         // Bind the game data into the VH
-        holder.bind(articles);
+        holder.bind(latestReviews);
     }
 
     // Return the total count of items in the list
     @Override
     public int getItemCount() {
-        return articles.size();
+        return latestReviews.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout container;
-        TextView tvTitle, tvDeck, tvAuthors, tvPublishDate;
+        TextView tvTitle, tvDeck, tvAuthors, tvPublishDate, tvScore;
         ImageView ivPoster;
 
         public ViewHolder(@NonNull View itemView) {
@@ -76,22 +77,29 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             tvAuthors = itemView.findViewById(R.id.tvAuthors);
             tvPublishDate = itemView.findViewById(R.id.tvPublishDate);
             container = itemView.findViewById(R.id.container);
+            tvScore = itemView.findViewById(R.id.tvScore);
         }
 
-        public void bind(Articles articles) {
-            tvTitle.setText(articles.getTitle());
-            tvDeck.setText(articles.getDeck());
-            tvAuthors.setText(articles.getAuthors());
-            tvPublishDate.setText(articles.getPublishDateTimeFromNow());
+        public void bind(LatestReviews latestReviews) {
+            tvTitle.setText(latestReviews.getTitle());
+            tvDeck.setText(latestReviews.getDeck());
+            tvAuthors.setText(latestReviews.getAuthors());
+            tvPublishDate.setText(latestReviews.getPublishDateTimeFromNow());
+
+            String score = latestReviews.getScore();
+
+            if (score.matches("10.0")) tvScore.setText("10");
+            else tvScore.setText(score);
+
 
             String imageUrl;
             // If phone is in landscape
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // then imageUrl = back drop image
-                imageUrl = articles.getBackdropPath();
+                imageUrl = latestReviews.getBackdropPath();
             } else {
                 // else imageUrl = poster image
-                imageUrl = articles.getPosterPath();
+                imageUrl = latestReviews.getPosterPath();
             }
 
             int radius = 30; // corner radius, higher value = more rounded
@@ -107,10 +115,10 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             // 1. Register click listener on the whole row
             container.setOnClickListener(v -> {
                 // 2. Navigate to a new activity on tap
-                Intent i  = new Intent(context, ArticleDetailActivity.class);
-                i.putExtra("article", Parcels.wrap(articles));
+                Intent i  = new Intent(context, LatestReviewsDetailActivity.class);
+                i.putExtra("latestReviews", Parcels.wrap(latestReviews));
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((Activity) context, itemView, "article");
+                        makeSceneTransitionAnimation((Activity) context, itemView, "latestReviews");
                 context.startActivity(i, options.toBundle());
             });
         }
