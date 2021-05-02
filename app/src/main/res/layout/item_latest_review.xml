@@ -88,7 +88,7 @@
         tools:text="Eddie Makuch" />
 
     <TextView
-        android:id="@+id/tvPublishDate"
+        android:id="@+id/tvUpdateDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ivPoster"

@@ -19,8 +19,8 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class LatestReviewsDetailActivity extends AppCompatActivity {
 
     TextView tvTitle, tvDeck, tvAuthors,
-            tvPublishDate, tvBody, tvScore,
-            tvGood, tvBad;
+            tvPublishDate, tvUpdateDate,
+            tvBody, tvScore, tvGood, tvBad;
     Button btnSiteDetailUrl;
     ImageView ivPoster;
 
@@ -33,6 +33,7 @@ public class LatestReviewsDetailActivity extends AppCompatActivity {
         tvDeck = findViewById(R.id.tvDeck);
         tvAuthors = findViewById(R.id.tvAuthors);
         tvPublishDate = findViewById(R.id.tvPublishDate);
+        tvUpdateDate = findViewById(R.id.tvUpdateDate);
         ivPoster = findViewById(R.id.ivPoster);
         tvBody = findViewById(R.id.tvBody);
         btnSiteDetailUrl = findViewById(R.id.btnSiteDetailUrl);
@@ -46,6 +47,7 @@ public class LatestReviewsDetailActivity extends AppCompatActivity {
         tvAuthors.setText(latestReviews.getAuthors());
         tvBody.setText(latestReviews.getBody());
         tvPublishDate.setText(latestReviews.getPublishDateToHumanReadable());
+        tvUpdateDate.setText(latestReviews.getUpdateDateToHumanReadable());
         tvScore.setText(latestReviews.getScore());
         tvGood.setText(latestReviews.getGood());
         tvBad.setText(latestReviews.getBad());

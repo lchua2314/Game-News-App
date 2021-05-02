@@ -19,8 +19,8 @@ import java.util.List;
 public class LatestReviews {
 
     String backdropPath, posterPath, originalPosterPath,
-            title, deck, authors, publishDate, body, siteDetailUrl,
-            score, good, bad;
+            title, deck, authors, publishDate, updateDate,
+            body, siteDetailUrl, score, good, bad;
 
     // empty constructor needed by the Parceler library
     public LatestReviews() {}
@@ -35,6 +35,7 @@ public class LatestReviews {
         deck = jsonObject.getString("deck");
         authors = jsonObject.getString("authors");
         publishDate = jsonObject.getString("publish_date");
+        updateDate = jsonObject.getString("update_date");
         score = jsonObject.getString("score");
 
         String formatGood = jsonObject.getString("good");
@@ -90,8 +91,8 @@ public class LatestReviews {
 
     public String getAuthors() { return authors; }
 
-    public String getPublishDateTimeFromNow() {
-        return formatDateToTimeFromNow(publishDate);
+    public String getUpdateDateTimeFromNow() {
+        return formatDateToTimeFromNow(updateDate);
     }
 
     /**
@@ -118,6 +119,10 @@ public class LatestReviews {
 
     public String getPublishDateToHumanReadable() {
         return formatDateToHumanReadable(publishDate);
+    }
+
+    public String getUpdateDateToHumanReadable() {
+        return formatDateToHumanReadable(updateDate);
     }
 
     /**

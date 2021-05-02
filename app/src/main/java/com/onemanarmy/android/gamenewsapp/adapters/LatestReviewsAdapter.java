@@ -66,7 +66,7 @@ public class LatestReviewsAdapter extends RecyclerView.Adapter<LatestReviewsAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout container;
-        TextView tvTitle, tvDeck, tvAuthors, tvPublishDate, tvScore;
+        TextView tvTitle, tvDeck, tvAuthors, tvUpdateDate, tvScore;
         ImageView ivPoster;
 
         public ViewHolder(@NonNull View itemView) {
@@ -75,7 +75,7 @@ public class LatestReviewsAdapter extends RecyclerView.Adapter<LatestReviewsAdap
             tvDeck = itemView.findViewById(R.id.tvDeck);
             ivPoster = itemView.findViewById(R.id.ivPoster);
             tvAuthors = itemView.findViewById(R.id.tvAuthors);
-            tvPublishDate = itemView.findViewById(R.id.tvPublishDate);
+            tvUpdateDate = itemView.findViewById(R.id.tvUpdateDate);
             container = itemView.findViewById(R.id.container);
             tvScore = itemView.findViewById(R.id.tvScore);
         }
@@ -84,7 +84,7 @@ public class LatestReviewsAdapter extends RecyclerView.Adapter<LatestReviewsAdap
             tvTitle.setText(latestReviews.getTitle());
             tvDeck.setText(latestReviews.getDeck());
             tvAuthors.setText(latestReviews.getAuthors());
-            tvPublishDate.setText(latestReviews.getPublishDateTimeFromNow());
+            tvUpdateDate.setText(latestReviews.getUpdateDateTimeFromNow());
 
             String score = latestReviews.getScore();
 
