@@ -101,9 +101,7 @@ Optional:
    - Articles Feed Screen
       - (Read/GET) Query 20 articles where publish date is descending
          ```java
-        public static final String GAME_NEWS_URL = "https://www.gamespot.com/api/articles/?api_key="
-                                                   + consumerKey + "&format=json&limit=20&sort=publish_date:desc";
-	// ...
+        public static final String GAME_NEWS_URL = "https://www.gamespot.com/api/articles/?api_key=" + consumerKey + "&format=json&limit=20&sort=publish_date:desc";
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
             @Override
