@@ -39,25 +39,25 @@ Scrolls through various video articles and movie news articles, the latest artic
 
 ### 2. Screen Archetypes
 
-* Articles Screen
+* Articles Feed Screen
    * Calls a GET request to obtain and display the latest 20 articles' title, description/deck, author name, and time ago since publish time.
    * Loads the article image when user scrolls it into view.
 * Articles Detail Screen
    * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, and body.
    * User can press a button to open a web browser and goes to the GameSpot article.
-* Latest Game Reviews Screen
+* Latest Game Reviews Feed Screen
    * Calls a GET request to obtain and display the latest 20 articles reviews' title, description/deck, author name, time ago since publish time and score.
    * Loads the article image when user scrolls it into view.
 * Latest Game Reviews Detail Screen
    * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, body and score.
    * User can press a button to open a web browser and goes to the GameSpot review.
-* Top Rated Game Reviews Screen
+* Top Rated Game Reviews Feed Screen
    * Calls a GET request to obtain and display the highest scored top 20 articles reviews' title, description/deck, author name, time ago since publish time and score.
    * Loads the article image when user scrolls it into view.
 * Top Rated Game Reviews Detail Screen
    * Loads and displays the HD image, title, description/deck, author name, publish date and time based on timezone, body and score.
    * User can press a button to open a web browser and goes to the GameSpot review.
-* Videos Screen
+* Videos Feed Screen
    * Calls a GET request to obtain and display the latest 20 videos' title, description/deck, and time ago since publish time.
    * Loads the article image when user scrolls it into view.
 * Videos Detail Screen
@@ -95,66 +95,49 @@ Optional:
 #### [View Wireframe on Figma](https://www.figma.com/proto/Ngljge013iCNdjGYGnfkyh/Game-News-App?scaling=scale-down&page-id=0%3A1&node-id=1%3A2)
 <img src="walkthroughInteractiveWireFrame.gif">
 
-## Schema 
-### Models
-#### Post
-
-   | Property      | Type     | Description |
-   | ------------- | -------- | ------------|
-   | objectId      | String   | unique id for the user post (default field) |
-   | author        | Pointer to User| image author |
-   | image         | File     | image that user posts |
-   | caption       | String   | image caption by author |
-   | commentsCount | Number   | number of comments that has been posted to an image |
-   | likesCount    | Number   | number of likes for the post |
-   | createdAt     | DateTime | date when post is created (default field) |
-   | updatedAt     | DateTime | date when post is last updated (default field) |
+## Schema
 ### Networking
 #### List of network requests by screen
-   - Home Feed Screen
-      - (Read/GET) Query all posts where user is author
-         ```swift
-         let query = PFQuery(className:"Post")
-         query.whereKey("author", equalTo: currentUser)
-         query.order(byDescending: "createdAt")
-         query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
-            if let error = error { 
-               print(error.localizedDescription)
-            } else if let posts = posts {
-               print("Successfully retrieved \(posts.count) posts.")
-           // TODO: Do something with posts...
+   - Articles Feed Screen
+      - (Read/GET) Query 20 articles where publish date is descending
+         ```java
+        public static final String GAME_NEWS_URL = "https://www.gamespot.com/api/articles/?api_key="
+                                                   + consumerKey + "&format=json&limit=20&sort=publish_date:desc";
+	...
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    articles.addAll(Articles.fromJsonArray(results));
+                    articlesAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
             }
-         }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure " + statusCode);
+            }
+        });
          ```
-      - (Create/POST) Create a new like on a post
-      - (Delete) Delete existing like
-      - (Create/POST) Create a new comment on a post
-      - (Delete) Delete existing comment
-   - Create Post Screen
-      - (Create/POST) Create a new post object
-   - Profile Screen
-      - (Read/GET) Query logged in user object
-      - (Update/PUT) Update user profile image
-#### [OPTIONAL:] Existing API Endpoints
-##### An API Of Ice And Fire
-- Base URL - [http://www.anapioficeandfire.com/api](http://www.anapioficeandfire.com/api)
+   - Latest Reviews Feed Screen
+      - (Read/GET) Query 20 reviews where update date is descending
+   - Top Reviews Feed Screen
+      - (Read/GET) Query 20 articles where score is descending and update date is descending
+   - Videos Feed Screen
+      - (Read/GET) Query 20 videos where publish date is descending
+#### Existing API Endpoints
+##### GameSpot API
+- Base URL - [https://www.gamespot.com/api/](https://www.gamespot.com/api/)
 
    HTTP Verb | Endpoint | Description
    ----------|----------|------------
-    `GET`    | /characters | get all characters
-    `GET`    | /characters/?name=name | return specific character by name
-    `GET`    | /houses   | get all houses
-    `GET`    | /houses/?name=name | return specific house by name
-
-##### Game of Thrones API
-- Base URL - [https://api.got.show/api](https://api.got.show/api)
-
-   HTTP Verb | Endpoint | Description
-   ----------|----------|------------
-    `GET`    | /cities | gets all cities
-    `GET`    | /cities/byId/:id | gets specific city by :id
-    `GET`    | /continents | gets all continents
-    `GET`    | /continents/byId/:id | gets specific continent by :id
-    `GET`    | /regions | gets all regions
-    `GET`    | /regions/byId/:id | gets specific region by :id
-    `GET`    | /characters/paths/:name | gets a character's path with a given name
+    `GET`    | /articles/&sort=publish_date:desc | get all articles sorted by latest publish date
+    `GET`    | /reviews/&sort=update_date:desc | get all reviews sorted by latest update date
+    `GET`    | /reviews/&sort=score:desc,update_date:desc | get all reviews sorted by highest score and latest update date
+    `GET`    | /videos/&sort=publish_date:desc | get all videos sorted by latest publish date
