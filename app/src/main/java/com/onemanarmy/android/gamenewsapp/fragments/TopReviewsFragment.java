@@ -16,8 +16,8 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.R;
-import com.onemanarmy.android.gamenewsapp.adapters.LatestReviewsAdapter;
-import com.onemanarmy.android.gamenewsapp.models.LatestReviews;
+import com.onemanarmy.android.gamenewsapp.adapters.TopReviewsAdapter;
+import com.onemanarmy.android.gamenewsapp.models.TopReviews;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,41 +28,41 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class LatestReviewsFragment extends Fragment {
+public class TopReviewsFragment extends Fragment {
 
     public static final String consumerKey = BuildConfig.CONSUMER_KEY;
-    // Obtains latest reviews in JSON, limited to 20 latest reviews, and sorted by latest date
-    public static final String LATEST_REVIEWS_URL = "https://www.gamespot.com/api/reviews/?api_key="
-            + consumerKey + "&format=json&limit=20&sort=update_date:desc";
-    public static final String TAG = "LatestReviewsFragment";
+    // Obtains top reviews in JSON, limited to 20 latest reviews, and sorted by latest date
+    public static final String TOP_REVIEWS_URL = "https://www.gamespot.com/api/reviews/?api_key="
+            + consumerKey + "&format=json&limit=20&sort=score:desc,update_date:desc";
+    public static final String TAG = "TopReviewsFragment";
 
-    List<LatestReviews> latestReviews;
+    List<TopReviews> topReviews;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_latest_reviews, container, false);
+        return inflater.inflate(R.layout.fragment_top_reviews, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView rvLatestReviews = view.findViewById(R.id.rvLatestReviews);
-        latestReviews = new ArrayList<>();
+        RecyclerView rvTopReviews = view.findViewById(R.id.rvTopReviews);
+        topReviews = new ArrayList<>();
 
         // Create the adapter
-        final LatestReviewsAdapter latestReviewsAdapter = new LatestReviewsAdapter(getContext(), latestReviews);
+        final TopReviewsAdapter topReviewsAdapter = new TopReviewsAdapter(getContext(), topReviews);
 
         // Set the adapter on the recycler view
-        rvLatestReviews.setAdapter(latestReviewsAdapter);
+        rvTopReviews.setAdapter(topReviewsAdapter);
 
         // Set a Layout Manager on the recycler view
-        rvLatestReviews.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvTopReviews.setLayoutManager(new LinearLayoutManager(getContext()));
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(LATEST_REVIEWS_URL, new JsonHttpResponseHandler() {
+        client.get(TOP_REVIEWS_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -70,9 +70,9 @@ public class LatestReviewsFragment extends Fragment {
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
                     Log.i(TAG, "Results: " + results.toString());
-                    latestReviews.addAll(LatestReviews.fromJsonArray(results));
-                    latestReviewsAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "LatestReviews: " + latestReviews.size());
+                    topReviews.addAll(TopReviews.fromJsonArray(results));
+                    topReviewsAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "TopReviews: " + topReviews.size());
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
                 }

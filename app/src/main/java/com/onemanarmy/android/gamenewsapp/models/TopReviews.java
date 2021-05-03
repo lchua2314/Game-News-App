@@ -16,16 +16,16 @@ import java.util.Date;
 import java.util.List;
 
 @Parcel
-public class LatestReviews {
+public class TopReviews {
 
     String backdropPath, posterPath, originalPosterPath,
             title, deck, authors, publishDate, updateDate,
             body, siteDetailUrl, score, good, bad;
 
     // empty constructor needed by the Parceler library
-    public LatestReviews() {}
+    public TopReviews() {}
 
-    public LatestReviews(JSONObject jsonObject) throws JSONException {
+    public TopReviews(JSONObject jsonObject) throws JSONException {
         JSONObject image = jsonObject.getJSONObject("image");
         backdropPath = image.getString("square_small");
         posterPath = image.getString("square_tiny");
@@ -69,12 +69,12 @@ public class LatestReviews {
         siteDetailUrl = jsonObject.getString("site_detail_url");
     }
 
-    public static List<LatestReviews> fromJsonArray(JSONArray gameJsonArray) throws JSONException {
-        List<LatestReviews> latestReviews = new ArrayList<>();
+    public static List<TopReviews> fromJsonArray(JSONArray gameJsonArray) throws JSONException {
+        List<TopReviews> topReviews = new ArrayList<>();
         for (int i = 0; i < gameJsonArray.length(); i++) {
-            latestReviews.add(new LatestReviews(gameJsonArray.getJSONObject(i)));
+            topReviews.add(new TopReviews(gameJsonArray.getJSONObject(i)));
         }
-        return latestReviews;
+        return topReviews;
     }
 
     public String getPosterPath() {
