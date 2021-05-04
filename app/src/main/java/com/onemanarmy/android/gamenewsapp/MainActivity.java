@@ -11,6 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.onemanarmy.android.gamenewsapp.fragments.ArticlesFragment;
 import com.onemanarmy.android.gamenewsapp.fragments.LatestReviewsFragment;
 import com.onemanarmy.android.gamenewsapp.fragments.TopReviewsFragment;
+import com.onemanarmy.android.gamenewsapp.fragments.VideosFragment;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.action_videos:
                 default:
-                    fragment = new ArticlesFragment();
+                    fragment = new VideosFragment();
                     tab = "videos";
                     break;
             }

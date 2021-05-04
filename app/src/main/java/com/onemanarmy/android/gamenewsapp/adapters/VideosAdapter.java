@@ -17,9 +17,9 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.onemanarmy.android.gamenewsapp.ArticlesDetailActivity;
 import com.onemanarmy.android.gamenewsapp.R;
-import com.onemanarmy.android.gamenewsapp.models.Articles;
+import com.onemanarmy.android.gamenewsapp.VideosDetailActivity;
+import com.onemanarmy.android.gamenewsapp.models.Videos;
 
 import org.parceler.Parcels;
 
@@ -27,45 +27,45 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
+public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder> {
 
     Context context;
-    List<Articles> articles;
+    List<Videos> videos;
 
-    public ArticlesAdapter(Context context, List<Articles> articles) {
+    public VideosAdapter(Context context, List<Videos> videos) {
         this.context = context;
-        this.articles = articles;
+        this.videos = videos;
     }
 
     // Usually involves inflating a layout from XML and returning the holder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d("ArticlesAdapter", "onCreateViewHolder");
-        View articlesView = LayoutInflater.from(context).inflate(R.layout.item_article, parent, false);
-        return new ViewHolder(articlesView);
+        Log.d("VideosAdapter", "onCreateViewHolder");
+        View videosView = LayoutInflater.from(context).inflate(R.layout.item_video, parent, false);
+        return new ViewHolder(videosView);
     }
 
     // Involves populating data into the item through holder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d("ArticlesAdapter", "onBindViewHolder " + position);
+        Log.d("VideosAdapter", "onBindViewHolder " + position);
         // Get the game at the passed in position
-        Articles articles = this.articles.get(position);
+        Videos videos = this.videos.get(position);
         // Bind the game data into the VH
-        holder.bind(articles);
+        holder.bind(videos);
     }
 
     // Return the total count of items in the list
     @Override
     public int getItemCount() {
-        return articles.size();
+        return videos.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout container;
-        TextView tvTitle, tvDeck, tvAuthors, tvPublishDate;
+        TextView tvTitle, tvDeck, tvPublishDate;
         ImageView ivPoster;
 
         public ViewHolder(@NonNull View itemView) {
@@ -73,25 +73,23 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDeck = itemView.findViewById(R.id.tvDeck);
             ivPoster = itemView.findViewById(R.id.ivPoster);
-            tvAuthors = itemView.findViewById(R.id.tvAuthors);
             tvPublishDate = itemView.findViewById(R.id.tvPublishDate);
             container = itemView.findViewById(R.id.container);
         }
 
-        public void bind(Articles articles) {
-            tvTitle.setText(articles.getTitle());
-            tvDeck.setText(articles.getDeck());
-            tvAuthors.setText(articles.getAuthors());
-            tvPublishDate.setText(articles.getPublishDateTimeFromNow());
+        public void bind(Videos videos) {
+            tvTitle.setText(videos.getTitle());
+            tvDeck.setText(videos.getDeck());
+            tvPublishDate.setText(videos.getPublishDateTimeFromNow());
 
             String imageUrl;
             // If phone is in landscape
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 // then imageUrl = back drop image
-                imageUrl = articles.getBackdropPath();
+                imageUrl = videos.getBackdropPath();
             } else {
                 // else imageUrl = poster image
-                imageUrl = articles.getPosterPath();
+                imageUrl = videos.getPosterPath();
             }
 
             int radius = 30; // corner radius, higher value = more rounded
@@ -107,10 +105,10 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             // 1. Register click listener on the whole row
             container.setOnClickListener(v -> {
                 // 2. Navigate to a new activity on tap
-                Intent i  = new Intent(context, ArticlesDetailActivity.class);
-                i.putExtra("article", Parcels.wrap(articles));
+                Intent i  = new Intent(context, VideosDetailActivity.class);
+                i.putExtra("video", Parcels.wrap(videos));
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((Activity) context, itemView, "article");
+                        makeSceneTransitionAnimation((Activity) context, itemView, "video");
                 context.startActivity(i, options.toBundle());
             });
         }

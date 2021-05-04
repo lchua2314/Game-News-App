@@ -16,7 +16,7 @@ import org.parceler.Parcels;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class ArticleDetailActivity extends AppCompatActivity {
+public class ArticlesDetailActivity extends AppCompatActivity {
 
     TextView tvTitle, tvDeck, tvAuthors, tvPublishDate, tvBody;
     Button btnSiteDetailUrl;
@@ -25,7 +25,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_article);
+        setContentView(R.layout.activity_detail_articles);
 
         tvTitle = findViewById(R.id.tvTitle);
         tvDeck = findViewById(R.id.tvDeck);
@@ -54,7 +54,7 @@ public class ArticleDetailActivity extends AppCompatActivity {
         int radius = 30; // corner radius, higher value = more rounded
         int margin = 10; // crop margin, set to 0 for corners with no crop
 
-        Glide.with(ArticleDetailActivity.this)
+        Glide.with(ArticlesDetailActivity.this)
                 .load(imageUrl)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.imagenotfound)

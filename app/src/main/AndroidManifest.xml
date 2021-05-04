@@ -11,9 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GameNewsApp">
-        <activity android:name=".ArticleDetailActivity"></activity>
+        <activity android:name=".ArticlesDetailActivity"></activity>
         <activity android:name=".LatestReviewsDetailActivity"></activity>
         <activity android:name=".TopReviewsDetailActivity"></activity>
+        <activity android:name=".VideosDetailActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
