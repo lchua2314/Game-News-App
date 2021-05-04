@@ -1,11 +1,13 @@
 package com.onemanarmy.android.gamenewsapp;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +22,7 @@ public class VideosDetailActivity extends AppCompatActivity {
 
     TextView tvTitle, tvDeck, tvPublishDate;
     Button btnSiteDetailUrl;
+    VideoView videoView;
     ImageView ivPoster;
 
     @Override
@@ -37,6 +40,16 @@ public class VideosDetailActivity extends AppCompatActivity {
         tvTitle.setText(videos.getTitle());
         tvDeck.setText(videos.getDeck());
         tvPublishDate.setText(videos.getPublishDateToHumanReadable());
+
+        videoView = findViewById(R.id.vvVideo);
+
+        Uri video = Uri.parse(videos.getVideo());
+        videoView.setVideoURI(video);
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);
+            videoView.start();
+        });
+
         btnSiteDetailUrl.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_VIEW);

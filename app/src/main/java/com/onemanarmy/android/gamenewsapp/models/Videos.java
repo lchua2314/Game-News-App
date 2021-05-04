@@ -31,6 +31,7 @@ public class Videos {
         title = jsonObject.getString("title");
         deck = jsonObject.getString("deck");
         publishDate = jsonObject.getString("publish_date");
+        high_url = jsonObject.getString("high_url");
 
         siteDetailUrl = jsonObject.getString("site_detail_url");
     }
@@ -116,4 +117,6 @@ public class Videos {
     }
 
     public String getSiteDetailUrl() { return siteDetailUrl; }
+
+    public String getVideo() { return high_url; }
 }

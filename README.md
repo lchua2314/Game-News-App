@@ -26,7 +26,7 @@ Scrolls through various video articles and movie news articles, the latest artic
 - [X] User has a navigation bar to transition to the latest GameSpot articles reviews, top reviews, and random videos (and can navigate back to articles).
 - [X] User scrolls through the latest GameSpot reviews and can view reviews that are selected.
 - [X] User scrolls through the top GameSpot reviews and can view reviews that are selected.
-- [ ] User scrolls through random videos and can watch videos that are selected.
+- [X] User scrolls through random videos and can watch videos that are selected.
 
 **Optional Nice-to-have Stories**
 
