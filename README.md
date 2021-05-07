@@ -17,6 +17,10 @@ Scrolls through various video articles and movie news articles, the latest artic
 - **Habit:** This app could be used as often or unoften as the user wanted depending on how often their interest in the latest articles articles and reviews.
 - **Scope:** The app will attempt to be placed on the Google Play Store for non-commercial use, however after that the app will not receive updates due to GameSpot's API terms of use denying users of making a competing product.
 
+### Demo
+#### (5/6/21) User Stories Completed
+<img src="walkthroughUserStoriesCompleted.gif">
+
 ## Product Spec
 ### 1. User Stories (Required and Optional)
 

@@ -11,11 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GameNewsApp">
-        <activity android:name=".ArticlesDetailActivity"></activity>
-        <activity android:name=".LatestReviewsDetailActivity"></activity>
-        <activity android:name=".TopReviewsDetailActivity"></activity>
-        <activity android:name=".VideosDetailActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".ArticlesDetailActivity"
+            android:label="@string/actionBarNameArticlesDetailActivity"></activity>
+        <activity android:name=".LatestReviewsDetailActivity"
+            android:label="@string/actionBarNameLatestReviewsDetailActivity"></activity>
+        <activity android:name=".TopReviewsDetailActivity"
+            android:label="@string/actionBarNameTopReviewsDetailActivity"></activity>
+        <activity android:name=".VideosDetailActivity"
+            android:label="@string/actionBarNameVideosDetailActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:label="@string/actionBarNameMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
