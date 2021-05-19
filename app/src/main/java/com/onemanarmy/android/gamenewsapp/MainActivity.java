@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set title of action bar since app name and action bar are separate.
+        getSupportActionBar().setTitle(R.string.actionBarNameMainActivity);
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {

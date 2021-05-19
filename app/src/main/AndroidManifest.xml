@@ -19,8 +19,7 @@
             android:label="@string/actionBarNameTopReviewsDetailActivity"></activity>
         <activity android:name=".VideosDetailActivity"
             android:label="@string/actionBarNameVideosDetailActivity"></activity>
-        <activity android:name=".MainActivity"
-            android:label="@string/actionBarNameMainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
