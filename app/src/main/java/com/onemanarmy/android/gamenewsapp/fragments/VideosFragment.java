@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.VideosAdapter;
 import com.onemanarmy.android.gamenewsapp.models.Videos;
+import com.onemanarmy.android.gamenewsapp.viewmodels.VideosFragmentViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,27 +63,44 @@ public class VideosFragment extends Fragment {
         // Set a Layout Manager on the recycler view
         rvVideos.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    Log.i(TAG, "Results: " + results.toString());
-                    videos.addAll(Videos.fromJsonArray(results));
-                    videosAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Videos: " + videos.size());
-                } catch (JSONException e) {
-                    Log.e(TAG, "Hit json exception", e);
-                }
-            }
+        // ViewModel that would save data over tab changes
+        VideosFragmentViewModel videosFragmentViewModel = new ViewModelProvider(requireActivity()).get(VideosFragmentViewModel.class);
+        JSONArray storedData = videosFragmentViewModel.getResults();
 
-            @Override
-            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure " + statusCode);
+        // Check if storedData actually has data.
+        // If not, fetch data from API then store it in ViewModel.
+        if (storedData != null) {
+            try {
+                Log.i(TAG, "Stored Results: " + storedData.toString());
+                videos.addAll(Videos.fromJsonArray(storedData));
+                videosAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                    Log.d(TAG, "onSuccess");
+                    JSONObject jsonObject = json.jsonObject;
+                    try {
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        videosFragmentViewModel.saveResults(results);
+                        Log.i(TAG, "Just Stored Results: " + videosFragmentViewModel.getResults());
+                        videos.addAll(Videos.fromJsonArray(results));
+                        videosAdapter.notifyDataSetChanged();
+                        Log.i(TAG, "Videos: " + videos.size());
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Hit json exception", e);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                    Log.d(TAG, "onFailure " + statusCode);
+                }
+            });
+        }
     }
 }

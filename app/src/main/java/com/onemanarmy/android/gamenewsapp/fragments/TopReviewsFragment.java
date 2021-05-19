@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.TopReviewsAdapter;
 import com.onemanarmy.android.gamenewsapp.models.TopReviews;
+import com.onemanarmy.android.gamenewsapp.viewmodels.TopReviewsFragmentViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,27 +63,44 @@ public class TopReviewsFragment extends Fragment {
         // Set a Layout Manager on the recycler view
         rvTopReviews.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(TOP_REVIEWS_URL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    Log.i(TAG, "Results: " + results.toString());
-                    topReviews.addAll(TopReviews.fromJsonArray(results));
-                    topReviewsAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "TopReviews: " + topReviews.size());
-                } catch (JSONException e) {
-                    Log.e(TAG, "Hit json exception", e);
-                }
-            }
+        // ViewModel that would save data over tab changes
+        TopReviewsFragmentViewModel topReviewsFragmentViewModel = new ViewModelProvider(requireActivity()).get(TopReviewsFragmentViewModel.class);
+        JSONArray storedData = topReviewsFragmentViewModel.getResults();
 
-            @Override
-            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure " + statusCode);
+        // Check if storedData actually has data.
+        // If not, fetch data from API then store it in ViewModel.
+        if (storedData != null) {
+            try {
+                Log.i(TAG, "Stored Results: " + storedData.toString());
+                topReviews.addAll(TopReviews.fromJsonArray(storedData));
+                topReviewsAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(TOP_REVIEWS_URL, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                    Log.d(TAG, "onSuccess");
+                    JSONObject jsonObject = json.jsonObject;
+                    try {
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        topReviewsFragmentViewModel.saveResults(results);
+                        Log.i(TAG, "Just Stored Results: " + topReviewsFragmentViewModel.getResults());
+                        topReviews.addAll(TopReviews.fromJsonArray(results));
+                        topReviewsAdapter.notifyDataSetChanged();
+                        Log.i(TAG, "TopReviews: " + topReviews.size());
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Hit json exception", e);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                    Log.d(TAG, "onFailure " + statusCode);
+                }
+            });
+        }
     }
 }

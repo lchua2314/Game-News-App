@@ -65,16 +65,15 @@ public class ArticlesFragment extends Fragment {
 
         // ViewModel that would save data over tab changes
         ArticlesFragmentViewModel articlesFragmentViewModel = new ViewModelProvider(requireActivity()).get(ArticlesFragmentViewModel.class);
-        JSONArray data = articlesFragmentViewModel.getResults();
+        JSONArray storedData = articlesFragmentViewModel.getResults();
 
-        boolean isDataStored = isDataStored(data);
-
-        if (isDataStored) {
-
+        // Check if storedData actually has data.
+        // If not, fetch data from API then store it in ViewModel.
+        if (storedData != null) {
             try {
-                Log.i(TAG, "Results: " + data.toString());
+                Log.i(TAG, "Stored Results: " + storedData.toString());
 
-                articles.addAll(Articles.fromJsonArray(data));
+                articles.addAll(Articles.fromJsonArray(storedData));
                 articlesAdapter.notifyDataSetChanged();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -89,7 +88,7 @@ public class ArticlesFragment extends Fragment {
                     try {
                         JSONArray results = jsonObject.getJSONArray("results");
                         articlesFragmentViewModel.saveResults(results);
-                        Log.i(TAG, "Results: " + articlesFragmentViewModel.getResults());
+                        Log.i(TAG, "Just Stored Results: " + articlesFragmentViewModel.getResults());
                         articles.addAll(Articles.fromJsonArray(results));
                         articlesAdapter.notifyDataSetChanged();
                         Log.i(TAG, "Articles: " + articles.size());
@@ -104,10 +103,5 @@ public class ArticlesFragment extends Fragment {
                 }
             });
         }
-    }
-
-    private boolean isDataStored(JSONArray data) {
-        if (data == null) return false;
-        return true;
     }
 }

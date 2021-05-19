@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.LatestReviewsAdapter;
 import com.onemanarmy.android.gamenewsapp.models.LatestReviews;
+import com.onemanarmy.android.gamenewsapp.viewmodels.LatestReviewsFragmentViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,27 +63,45 @@ public class LatestReviewsFragment extends Fragment {
         // Set a Layout Manager on the recycler view
         rvLatestReviews.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(LATEST_REVIEWS_URL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    Log.i(TAG, "Results: " + results.toString());
-                    latestReviews.addAll(LatestReviews.fromJsonArray(results));
-                    latestReviewsAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "LatestReviews: " + latestReviews.size());
-                } catch (JSONException e) {
-                    Log.e(TAG, "Hit json exception", e);
-                }
-            }
+        // ViewModel that would save data over tab changes
+        LatestReviewsFragmentViewModel latestReviewsFragmentViewModel = new ViewModelProvider(requireActivity()).get(LatestReviewsFragmentViewModel.class);
+        JSONArray storedData = latestReviewsFragmentViewModel.getResults();
 
-            @Override
-            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure " + statusCode);
+        // Check if storedData actually has data.
+        // If not, fetch data from API then store it in ViewModel.
+        if (storedData != null) {
+            try {
+                Log.i(TAG, "Stored Results: " + storedData.toString());
+
+                latestReviews.addAll(LatestReviews.fromJsonArray(storedData));
+                latestReviewsAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(LATEST_REVIEWS_URL, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                    Log.d(TAG, "onSuccess");
+                    JSONObject jsonObject = json.jsonObject;
+                    try {
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        latestReviewsFragmentViewModel.saveResults(results);
+                        Log.i(TAG, "Just Stored Results: " + latestReviewsFragmentViewModel.getResults());
+                        latestReviews.addAll(LatestReviews.fromJsonArray(results));
+                        latestReviewsAdapter.notifyDataSetChanged();
+                        Log.i(TAG, "LatestReviews: " + latestReviews.size());
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Hit json exception", e);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                    Log.d(TAG, "onFailure " + statusCode);
+                }
+            });
+        }
     }
 }
