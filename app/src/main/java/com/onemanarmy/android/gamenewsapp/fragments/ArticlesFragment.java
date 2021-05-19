@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.ArticlesAdapter;
 import com.onemanarmy.android.gamenewsapp.models.Articles;
+import com.onemanarmy.android.gamenewsapp.viewmodels.ArticlesFragmentViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,27 +63,51 @@ public class ArticlesFragment extends Fragment {
         // Set a Layout Manager on the recycler view
         rvArticles.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    Log.i(TAG, "Results: " + results.toString());
-                    articles.addAll(Articles.fromJsonArray(results));
-                    articlesAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Articles: " + articles.size());
-                } catch (JSONException e) {
-                    Log.e(TAG, "Hit json exception", e);
-                }
-            }
+        // ViewModel that would save data over tab changes
+        ArticlesFragmentViewModel articlesFragmentViewModel = new ViewModelProvider(requireActivity()).get(ArticlesFragmentViewModel.class);
+        JSONArray data = articlesFragmentViewModel.getResults();
 
-            @Override
-            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure " + statusCode);
+        boolean isDataStored = isDataStored(data);
+
+        if (isDataStored) {
+
+            try {
+                Log.i(TAG, "Results: " + data.toString());
+
+                articles.addAll(Articles.fromJsonArray(data));
+                articlesAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                    Log.d(TAG, "onSuccess");
+                    JSONObject jsonObject = json.jsonObject;
+                    try {
+                        JSONArray results = jsonObject.getJSONArray("results");
+                        articlesFragmentViewModel.saveResults(results);
+                        Log.i(TAG, "Results: " + articlesFragmentViewModel.getResults());
+                        articles.addAll(Articles.fromJsonArray(results));
+                        articlesAdapter.notifyDataSetChanged();
+                        Log.i(TAG, "Articles: " + articles.size());
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Hit json exception", e);
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                    Log.d(TAG, "onFailure " + statusCode);
+                }
+            });
+        }
+    }
+
+    private boolean isDataStored(JSONArray data) {
+        if (data == null) return false;
+        return true;
     }
 }
