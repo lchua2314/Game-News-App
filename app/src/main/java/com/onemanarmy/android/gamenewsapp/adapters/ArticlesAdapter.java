@@ -56,6 +56,12 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         holder.bind(articles);
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        articles.clear();
+        notifyDataSetChanged();
+    }
+
     // Return the total count of items in the list
     @Override
     public int getItemCount() {

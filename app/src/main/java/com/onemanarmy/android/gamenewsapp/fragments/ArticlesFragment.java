@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -40,6 +41,10 @@ public class ArticlesFragment extends Fragment {
 
     List<Articles> articles;
 
+    private SwipeRefreshLayout swipeContainer;
+    ArticlesFragmentViewModel articlesFragmentViewModel;
+    ArticlesAdapter articlesAdapter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,11 +56,26 @@ public class ArticlesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(() -> {
+            // Your code to refresh the list here.
+            // Make sure you call swipeContainer.setRefreshing(false)
+            // once the network request has completed successfully.
+            fetchData();
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_purple);
+
         RecyclerView rvArticles = view.findViewById(R.id.rvArticles);
         articles = new ArrayList<>();
 
         // Create the adapter
-        final ArticlesAdapter articlesAdapter = new ArticlesAdapter(getContext(), articles);
+        articlesAdapter = new ArticlesAdapter(getContext(), articles);
 
         // Set the adapter on the recycler view
         rvArticles.setAdapter(articlesAdapter);
@@ -64,7 +84,7 @@ public class ArticlesFragment extends Fragment {
         rvArticles.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // ViewModel that would save data over tab changes
-        ArticlesFragmentViewModel articlesFragmentViewModel = new ViewModelProvider(requireActivity()).get(ArticlesFragmentViewModel.class);
+        articlesFragmentViewModel = new ViewModelProvider(requireActivity()).get(ArticlesFragmentViewModel.class);
         JSONArray storedData = articlesFragmentViewModel.getResults();
 
         // Check if storedData actually has data.
@@ -79,29 +99,38 @@ public class ArticlesFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Headers headers, JSON json) {
-                    Log.d(TAG, "onSuccess");
-                    JSONObject jsonObject = json.jsonObject;
-                    try {
-                        JSONArray results = jsonObject.getJSONArray("results");
-                        articlesFragmentViewModel.saveResults(results);
-                        Log.i(TAG, "Just Stored Results: " + articlesFragmentViewModel.getResults());
-                        articles.addAll(Articles.fromJsonArray(results));
-                        articlesAdapter.notifyDataSetChanged();
-                        Log.i(TAG, "Articles: " + articles.size());
-                    } catch (JSONException e) {
-                        Log.e(TAG, "Hit json exception", e);
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
-                    Log.d(TAG, "onFailure " + statusCode);
-                }
-            });
+            fetchData();
         }
+    }
+
+    public void fetchData() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    articlesFragmentViewModel.saveResults(results);
+                    Log.i(TAG, "Just Stored Results: " + articlesFragmentViewModel.getResults());
+                    // Remember to CLEAR OUT old items before appending in the new ones
+                    articlesAdapter.clear();
+                    // ...the data has come back, add new items to your adapter...
+                    articles.addAll(Articles.fromJsonArray(results));
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    swipeContainer.setRefreshing(false);
+                    articlesAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Articles: " + articles.size());
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure " + statusCode);
+            }
+        });
     }
 }

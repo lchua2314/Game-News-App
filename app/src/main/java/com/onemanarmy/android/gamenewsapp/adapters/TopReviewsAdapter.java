@@ -56,6 +56,12 @@ public class TopReviewsAdapter extends RecyclerView.Adapter<TopReviewsAdapter.Vi
         holder.bind(topReviews);
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        topReviews.clear();
+        notifyDataSetChanged();
+    }
+
     // Return the total count of items in the list
     @Override
     public int getItemCount() {

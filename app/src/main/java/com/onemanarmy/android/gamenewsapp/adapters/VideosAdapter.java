@@ -56,6 +56,13 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.ViewHolder
         holder.bind(videos);
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        videos.clear();
+        notifyDataSetChanged();
+    }
+
+
     // Return the total count of items in the list
     @Override
     public int getItemCount() {

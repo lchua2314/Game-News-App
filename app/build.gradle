@@ -8,6 +8,8 @@ def apikeyPropertiesFile = rootProject.file("apikey.properties")
 def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
+apply plugin: 'com.android.application'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -68,4 +70,7 @@ dependencies {
     // ViewModel
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+
+    // Swipe down to refresh tab
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }

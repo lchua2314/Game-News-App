@@ -12,12 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.LatestReviewsAdapter;
+import com.onemanarmy.android.gamenewsapp.models.Articles;
 import com.onemanarmy.android.gamenewsapp.models.LatestReviews;
 import com.onemanarmy.android.gamenewsapp.viewmodels.LatestReviewsFragmentViewModel;
 
@@ -40,6 +42,10 @@ public class LatestReviewsFragment extends Fragment {
 
     List<LatestReviews> latestReviews;
 
+    private SwipeRefreshLayout swipeContainer;
+    LatestReviewsAdapter latestReviewsAdapter;
+    LatestReviewsFragmentViewModel latestReviewsFragmentViewModel;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,11 +57,26 @@ public class LatestReviewsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Lookup the swipe container view
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(() -> {
+            // Your code to refresh the list here.
+            // Make sure you call swipeContainer.setRefreshing(false)
+            // once the network request has completed successfully.
+            fetchData();
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_purple);
+
         RecyclerView rvLatestReviews = view.findViewById(R.id.rvLatestReviews);
         latestReviews = new ArrayList<>();
 
         // Create the adapter
-        final LatestReviewsAdapter latestReviewsAdapter = new LatestReviewsAdapter(getContext(), latestReviews);
+        latestReviewsAdapter = new LatestReviewsAdapter(getContext(), latestReviews);
 
         // Set the adapter on the recycler view
         rvLatestReviews.setAdapter(latestReviewsAdapter);
@@ -64,7 +85,7 @@ public class LatestReviewsFragment extends Fragment {
         rvLatestReviews.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // ViewModel that would save data over tab changes
-        LatestReviewsFragmentViewModel latestReviewsFragmentViewModel = new ViewModelProvider(requireActivity()).get(LatestReviewsFragmentViewModel.class);
+        latestReviewsFragmentViewModel = new ViewModelProvider(requireActivity()).get(LatestReviewsFragmentViewModel.class);
         JSONArray storedData = latestReviewsFragmentViewModel.getResults();
 
         // Check if storedData actually has data.
@@ -79,29 +100,38 @@ public class LatestReviewsFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.get(LATEST_REVIEWS_URL, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Headers headers, JSON json) {
-                    Log.d(TAG, "onSuccess");
-                    JSONObject jsonObject = json.jsonObject;
-                    try {
-                        JSONArray results = jsonObject.getJSONArray("results");
-                        latestReviewsFragmentViewModel.saveResults(results);
-                        Log.i(TAG, "Just Stored Results: " + latestReviewsFragmentViewModel.getResults());
-                        latestReviews.addAll(LatestReviews.fromJsonArray(results));
-                        latestReviewsAdapter.notifyDataSetChanged();
-                        Log.i(TAG, "LatestReviews: " + latestReviews.size());
-                    } catch (JSONException e) {
-                        Log.e(TAG, "Hit json exception", e);
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
-                    Log.d(TAG, "onFailure " + statusCode);
-                }
-            });
+            fetchData();
         }
+    }
+
+    private void fetchData() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(LATEST_REVIEWS_URL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    latestReviewsFragmentViewModel.saveResults(results);
+                    Log.i(TAG, "Just Stored Results: " + latestReviewsFragmentViewModel.getResults());
+                    // Remember to CLEAR OUT old items before appending in the new ones
+                    latestReviewsAdapter.clear();
+                    // ...the data has come back, add new items to your adapter...
+                    latestReviews.addAll(LatestReviews.fromJsonArray(results));
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    swipeContainer.setRefreshing(false);
+                    latestReviewsAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "LatestReviews: " + latestReviews.size());
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure " + statusCode);
+            }
+        });
     }
 }

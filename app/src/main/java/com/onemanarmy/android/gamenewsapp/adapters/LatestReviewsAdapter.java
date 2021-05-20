@@ -56,6 +56,12 @@ public class LatestReviewsAdapter extends RecyclerView.Adapter<LatestReviewsAdap
         holder.bind(latestReviews);
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        latestReviews.clear();
+        notifyDataSetChanged();
+    }
+
     // Return the total count of items in the list
     @Override
     public int getItemCount() {
