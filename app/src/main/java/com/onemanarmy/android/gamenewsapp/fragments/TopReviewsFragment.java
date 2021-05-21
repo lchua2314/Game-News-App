@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.onemanarmy.android.gamenewsapp.BuildConfig;
+import com.onemanarmy.android.gamenewsapp.EndlessRecyclerViewScrollListener;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.TopReviewsAdapter;
 import com.onemanarmy.android.gamenewsapp.models.Articles;
@@ -45,6 +46,9 @@ public class TopReviewsFragment extends Fragment {
     TopReviewsAdapter topReviewsAdapter;
     TopReviewsFragmentViewModel topReviewsFragmentViewModel;
 
+    // Store a member variable for the listener
+    private EndlessRecyclerViewScrollListener scrollListener;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +68,7 @@ public class TopReviewsFragment extends Fragment {
             // Make sure you call swipeContainer.setRefreshing(false)
             // once the network request has completed successfully.
             fetchData();
+            topReviewsFragmentViewModel.resetOffset();
         });
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark,
@@ -80,11 +85,29 @@ public class TopReviewsFragment extends Fragment {
         // Set the adapter on the recycler view
         rvTopReviews.setAdapter(topReviewsAdapter);
 
+        // Linear Layout
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
         // Set a Layout Manager on the recycler view
-        rvTopReviews.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvTopReviews.setLayoutManager(linearLayoutManager);
 
         // ViewModel that would save data over tab changes
         topReviewsFragmentViewModel = new ViewModelProvider(requireActivity()).get(TopReviewsFragmentViewModel.class);
+
+        // EndlessRecyclerViewScrollListener - Loads the next 20 cards when user hit the bottom
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                loadNextDataFromApi(topReviewsFragmentViewModel.getOffset());
+                topReviewsFragmentViewModel.updateOffset();
+            }
+        };
+
+        // Adds the scroll listener to RecyclerView
+        rvTopReviews.addOnScrollListener(scrollListener);
+
         JSONArray storedData = topReviewsFragmentViewModel.getResults();
 
         // Check if storedData actually has data.
@@ -100,6 +123,35 @@ public class TopReviewsFragment extends Fragment {
         } else {
             fetchData();
         }
+    }
+
+    // Append the next page of data into the adapter
+    // This method probably sends out a network request and appends new data items to your adapter.
+    public void loadNextDataFromApi(int offset) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(TOP_REVIEWS_URL + "&offset=" + offset, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    topReviewsFragmentViewModel.saveResults(results);
+                    Log.i(TAG, "Just Stored Results: " + topReviewsFragmentViewModel.getResults());
+                    // ...the data has come back, add new items to your adapter...
+                    topReviews.addAll(TopReviews.fromJsonArray(results));
+                    topReviewsAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Top Reviews: " + topReviews.size());
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure " + statusCode);
+            }
+        });
     }
 
     private void fetchData() {

@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.onemanarmy.android.gamenewsapp.BuildConfig;
+import com.onemanarmy.android.gamenewsapp.EndlessRecyclerViewScrollListener;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.ArticlesAdapter;
 import com.onemanarmy.android.gamenewsapp.models.Articles;
@@ -45,6 +46,9 @@ public class ArticlesFragment extends Fragment {
     ArticlesFragmentViewModel articlesFragmentViewModel;
     ArticlesAdapter articlesAdapter;
 
+    // Store a member variable for the listener
+    private EndlessRecyclerViewScrollListener scrollListener;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +68,7 @@ public class ArticlesFragment extends Fragment {
             // Make sure you call swipeContainer.setRefreshing(false)
             // once the network request has completed successfully.
             fetchData();
+            articlesFragmentViewModel.resetOffset();
         });
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark,
@@ -80,11 +85,29 @@ public class ArticlesFragment extends Fragment {
         // Set the adapter on the recycler view
         rvArticles.setAdapter(articlesAdapter);
 
+        // Linear Layout
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
         // Set a Layout Manager on the recycler view
-        rvArticles.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvArticles.setLayoutManager(linearLayoutManager);
 
         // ViewModel that would save data over tab changes
         articlesFragmentViewModel = new ViewModelProvider(requireActivity()).get(ArticlesFragmentViewModel.class);
+
+        // EndlessRecyclerViewScrollListener - Loads the next 20 cards when user hit the bottom
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                loadNextDataFromApi(articlesFragmentViewModel.getOffset());
+                articlesFragmentViewModel.updateOffset();
+            }
+        };
+
+        // Adds the scroll listener to RecyclerView
+        rvArticles.addOnScrollListener(scrollListener);
+
         JSONArray storedData = articlesFragmentViewModel.getResults();
 
         // Check if storedData actually has data.
@@ -101,6 +124,35 @@ public class ArticlesFragment extends Fragment {
         } else {
             fetchData();
         }
+    }
+
+    // Append the next page of data into the adapter
+    // This method probably sends out a network request and appends new data items to your adapter.
+    public void loadNextDataFromApi(int offset) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(GAME_NEWS_URL + "&offset=" + offset, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+                    articlesFragmentViewModel.saveResults(results);
+                    Log.i(TAG, "Just Stored Results: " + articlesFragmentViewModel.getResults());
+                    // ...the data has come back, add new items to your adapter...
+                    articles.addAll(Articles.fromJsonArray(results));
+                    articlesAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Articles: " + articles.size());
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure " + statusCode);
+            }
+        });
     }
 
     public void fetchData() {
