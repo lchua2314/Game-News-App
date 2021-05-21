@@ -67,7 +67,7 @@ public class VideosFragment extends Fragment {
             // Your code to refresh the list here.
             // Make sure you call swipeContainer.setRefreshing(false)
             // once the network request has completed successfully.
-            fetchData();
+            refreshData();
             videosFragmentViewModel.resetOffset();
         });
         // Configure the refreshing colors
@@ -121,8 +121,47 @@ public class VideosFragment extends Fragment {
                 e.printStackTrace();
             }
         } else {
-            fetchData();
+            fetchOldData();
         }
+    }
+
+    private void refreshData() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray results = jsonObject.getJSONArray("results");
+
+                    // Empties the JSONArray in ViewModel
+                    videosFragmentViewModel.resetResults();
+
+                    // Saves the data of the first 20 cards from API call
+                    videosFragmentViewModel.saveResults(results);
+                    Log.i(TAG, "Just Stored Results: " + videosFragmentViewModel.getResults());
+
+                    // Remember to CLEAR OUT old items before appending in the new ones
+                    videosAdapter.clear();
+
+                    // ...the data has come back, add new items to your adapter...
+                    videos.addAll(Videos.fromJsonArray(results));
+
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    swipeContainer.setRefreshing(false);
+                    videosAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Videos: " + videos.size());
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure " + statusCode);
+            }
+        });
     }
 
     // Append the next page of data into the adapter
@@ -154,7 +193,7 @@ public class VideosFragment extends Fragment {
         });
     }
 
-    private void fetchData() {
+    private void fetchOldData() {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
             @Override

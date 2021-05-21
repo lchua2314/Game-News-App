@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class ArticlesFragmentViewModel extends ViewModel {
 
     private JSONArray savedResults;
@@ -45,5 +47,9 @@ public class ArticlesFragmentViewModel extends ViewModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void resetResults() {
+        savedResults = new JSONArray(new ArrayList<String>());
     }
 }
