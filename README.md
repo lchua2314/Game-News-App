@@ -34,11 +34,11 @@ Scrolls through various video articles and movie news articles, the latest artic
 
 **Optional Nice-to-have Stories**
 
-- [ ] User can drag down at the top of one of the scrolls to refresh to check for more articles/reviews/videos.
-- [ ] "Infinite" pagination (limited due to GameSpot API of 100 IDs)
-- [ ] Favorites tab that can store any articles/reviews/videos that the user can store on their device or a backend database.
-- [ ] Search bar for each category.
+- [X] User can drag down at the top of one of the scrolls to refresh to check for more articles/reviews/videos.
+- [X] "Infinite" pagination (limited due to GameSpot API of 100 IDs)
 - [ ] User can select different quality videos in the Videos Screen.
+- [ ] Search bar for each category.
+- [ ] Favorites tab that can store any articles/reviews/videos that the user can store on their device or a backend database.
 - [ ] Settings tab that the user can set certain settings such as light/dark mode, text font, themes, etc.
 
 ### 2. Screen Archetypes
