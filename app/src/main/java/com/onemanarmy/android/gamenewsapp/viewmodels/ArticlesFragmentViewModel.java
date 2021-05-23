@@ -15,7 +15,6 @@ public class ArticlesFragmentViewModel extends ViewModel {
     private int scrollPosition = 0;
 
     public void setScrollPosition(int scrollPosition) {
-        if (scrollPosition == -1) return; // Eases the bug
         this.scrollPosition = scrollPosition;
     }
 

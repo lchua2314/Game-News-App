@@ -132,16 +132,27 @@ public class LatestReviewsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        latestReviewsFragmentViewModel.setScrollPosition(
-                ((LinearLayoutManager)rvLatestReviews.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        latestReviewsFragmentViewModel.setScrollPosition(getPosition());
         Log.i(TAG, "onPause: " + latestReviewsFragmentViewModel.getScrollPosition());
+    }
+
+    private int getPosition() {
+        int firstCompletelyVisibleItemPosition =
+                ((LinearLayoutManager)rvLatestReviews.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+
+        // If there is not a completely visible item,
+        // it would return -1 so just get the first
+        // visible item instead.
+        if (firstCompletelyVisibleItemPosition == -1)
+            return ((LinearLayoutManager)rvLatestReviews.getLayoutManager()).findFirstVisibleItemPosition();
+
+        return firstCompletelyVisibleItemPosition;
     }
 
     public void setScrollPosition() {
         rvLatestReviews.getLayoutManager().scrollToPosition(latestReviewsFragmentViewModel.getScrollPosition());
         Log.i(TAG, "setScrollPosition: " + latestReviewsFragmentViewModel.getScrollPosition());
     }
-
 
     private void refreshData() {
         AsyncHttpClient client = new AsyncHttpClient();

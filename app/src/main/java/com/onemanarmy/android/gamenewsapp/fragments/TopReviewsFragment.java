@@ -130,9 +130,21 @@ public class TopReviewsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        topReviewsFragmentViewModel.setScrollPosition(
-                ((LinearLayoutManager)rvTopReviews.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        topReviewsFragmentViewModel.setScrollPosition(getPosition());
         Log.i(TAG, "onPause: " + topReviewsFragmentViewModel.getScrollPosition());
+    }
+
+    private int getPosition() {
+        int firstCompletelyVisibleItemPosition =
+                ((LinearLayoutManager)rvTopReviews.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+
+        // If there is not a completely visible item,
+        // it would return -1 so just get the first
+        // visible item instead.
+        if (firstCompletelyVisibleItemPosition == -1)
+            return ((LinearLayoutManager)rvTopReviews.getLayoutManager()).findFirstVisibleItemPosition();
+
+        return firstCompletelyVisibleItemPosition;
     }
 
     public void setScrollPosition() {

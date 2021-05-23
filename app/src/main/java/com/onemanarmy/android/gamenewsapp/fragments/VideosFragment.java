@@ -130,9 +130,21 @@ public class VideosFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        videosFragmentViewModel.setScrollPosition(
-                ((LinearLayoutManager)rvVideos.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        videosFragmentViewModel.setScrollPosition(getPosition());
         Log.i(TAG, "onPause: " + videosFragmentViewModel.getScrollPosition());
+    }
+
+    private int getPosition() {
+        int firstCompletelyVisibleItemPosition =
+                ((LinearLayoutManager)rvVideos.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+
+        // If there is not a completely visible item,
+        // it would return -1 so just get the first
+        // visible item instead.
+        if (firstCompletelyVisibleItemPosition == -1)
+            return ((LinearLayoutManager)rvVideos.getLayoutManager()).findFirstVisibleItemPosition();
+
+        return firstCompletelyVisibleItemPosition;
     }
 
     public void setScrollPosition() {

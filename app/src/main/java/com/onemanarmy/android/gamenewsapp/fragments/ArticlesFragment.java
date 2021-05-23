@@ -1,6 +1,7 @@
 package com.onemanarmy.android.gamenewsapp.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class ArticlesFragment extends Fragment {
     public static final String GAME_NEWS_URL = "https://www.gamespot.com/api/articles/?api_key="
             + consumerKey + "&format=json&limit=20&sort=publish_date:desc";
     public static final String TAG = "ArticlesFragment";
+    private static final String BUNDLE_RECYCLER_LAYOUT = "ArticlesFragment.recycler.layout";
 
     List<Articles> articles;
 
@@ -131,9 +133,21 @@ public class ArticlesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        articlesFragmentViewModel.setScrollPosition(
-                ((LinearLayoutManager)rvArticles.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        articlesFragmentViewModel.setScrollPosition(getPosition());
         Log.i(TAG, "onPause: " + articlesFragmentViewModel.getScrollPosition());
+    }
+
+    private int getPosition() {
+        int firstCompletelyVisibleItemPosition =
+                ((LinearLayoutManager)rvArticles.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+
+        // If there is not a completely visible item,
+        // it would return -1 so just get the first
+        // visible item instead.
+        if (firstCompletelyVisibleItemPosition == -1)
+            return ((LinearLayoutManager)rvArticles.getLayoutManager()).findFirstVisibleItemPosition();
+
+        return firstCompletelyVisibleItemPosition;
     }
 
     public void setScrollPosition() {
