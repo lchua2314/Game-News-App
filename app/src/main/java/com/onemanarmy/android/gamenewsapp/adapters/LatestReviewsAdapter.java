@@ -93,7 +93,7 @@ public class LatestReviewsAdapter extends RecyclerView.Adapter<LatestReviewsAdap
 
             String score = latestReviews.getScore();
 
-            if (score.matches("10.0")) tvScore.setText("10");
+            if (score.matches("10.0")) tvScore.setText("10 ");
             else tvScore.setText(score);
 
             String imageUrl;

@@ -12,16 +12,31 @@
     <ImageView
         android:id="@+id/ivPoster"
         android:transitionName="topReviews"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="4dp"
+        android:layout_toStartOf="@+id/ivStar"
+        android:layout_toEndOf="@+id/ivPoster"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="#EEEEEE"
+        android:textSize="18sp"
+        android:typeface="serif"
+        tools:text="Nomadland Wins Three Oscars At 93rd Academy Awards" />
+
     <ImageView
         android:id="@+id/ivStar"
-        android:layout_width="79dp"
-        android:layout_height="71dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-2dp"
@@ -35,38 +50,27 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="27dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="13dp"
         android:text="8.0"
         android:textColor="#EEEEEE"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:typeface="serif" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/ivPoster"
-        android:layout_toStartOf="@+id/ivStar"
-        android:textColor="#EEEEEE"
-        android:textSize="24sp"
-        android:typeface="serif"
-        tools:text="Nomadland Wins Three Oscars At 93rd Academy Awards" />
 
     <TextView
         android:id="@+id/tvDeck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:layout_alignBottom="@+id/ivPoster"
         android:layout_alignEnd="@+id/tvTitle"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="-2dp"
         android:layout_toEndOf="@+id/ivPoster"
+        android:ellipsize="end"
+        android:maxLines="3"
         android:textColor="#EEEEEE"
-        android:textSize="18sp"
+        android:textSize="13sp"
         android:typeface="serif"
         tools:text="Nomadland was the most-winning film for this year's Oscars." />
 
@@ -79,7 +83,7 @@
         android:layout_marginBottom="4dp"
         android:layout_toEndOf="@+id/ivPoster"
         android:textColor="#EEEEEE"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:typeface="serif"
         tools:text="Eddie Makuch" />
 
@@ -92,7 +96,8 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:textColor="#EEEEEE"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:typeface="serif"
-        tools:text="1hr ago" />
+        tools:text="1 hour ago" />
+
 </RelativeLayout>

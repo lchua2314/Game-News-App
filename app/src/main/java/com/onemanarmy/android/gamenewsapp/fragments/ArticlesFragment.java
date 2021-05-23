@@ -45,6 +45,7 @@ public class ArticlesFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     ArticlesFragmentViewModel articlesFragmentViewModel;
     ArticlesAdapter articlesAdapter;
+    RecyclerView rvArticles;
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -61,7 +62,7 @@ public class ArticlesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(() -> {
             // Your code to refresh the list here.
@@ -76,7 +77,7 @@ public class ArticlesFragment extends Fragment {
                 android.R.color.holo_blue_light,
                 android.R.color.holo_purple);
 
-        RecyclerView rvArticles = view.findViewById(R.id.rvArticles);
+        rvArticles = view.findViewById(R.id.rvArticles);
         articles = new ArrayList<>();
 
         // Create the adapter
@@ -124,6 +125,20 @@ public class ArticlesFragment extends Fragment {
         } else {
             fetchOldData();
         }
+        setScrollPosition();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        articlesFragmentViewModel.setScrollPosition(
+                ((LinearLayoutManager)rvArticles.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        Log.i(TAG, "onPause: " + articlesFragmentViewModel.getScrollPosition());
+    }
+
+    public void setScrollPosition() {
+        rvArticles.getLayoutManager().scrollToPosition(articlesFragmentViewModel.getScrollPosition());
+        Log.i(TAG, "setScrollPosition: " + articlesFragmentViewModel.getScrollPosition());
     }
 
     private void refreshData() {

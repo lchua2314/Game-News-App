@@ -93,7 +93,7 @@ public class TopReviewsAdapter extends RecyclerView.Adapter<TopReviewsAdapter.Vi
 
             String score = topReviews.getScore();
 
-            if (score.matches("10.0")) tvScore.setText("10");
+            if (score.matches("10.0")) tvScore.setText("10 ");
             else tvScore.setText(score);
 
 

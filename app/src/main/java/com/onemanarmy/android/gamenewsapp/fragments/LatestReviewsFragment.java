@@ -46,6 +46,7 @@ public class LatestReviewsFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     LatestReviewsAdapter latestReviewsAdapter;
     LatestReviewsFragmentViewModel latestReviewsFragmentViewModel;
+    RecyclerView rvLatestReviews;
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -62,7 +63,7 @@ public class LatestReviewsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(() -> {
             // Your code to refresh the list here.
@@ -77,7 +78,7 @@ public class LatestReviewsFragment extends Fragment {
                 android.R.color.holo_blue_light,
                 android.R.color.holo_purple);
 
-        RecyclerView rvLatestReviews = view.findViewById(R.id.rvLatestReviews);
+        rvLatestReviews = view.findViewById(R.id.rvLatestReviews);
         latestReviews = new ArrayList<>();
 
         // Create the adapter
@@ -125,7 +126,22 @@ public class LatestReviewsFragment extends Fragment {
         } else {
             fetchOldData();
         }
+        setScrollPosition();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        latestReviewsFragmentViewModel.setScrollPosition(
+                ((LinearLayoutManager)rvLatestReviews.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        Log.i(TAG, "onPause: " + latestReviewsFragmentViewModel.getScrollPosition());
+    }
+
+    public void setScrollPosition() {
+        rvLatestReviews.getLayoutManager().scrollToPosition(latestReviewsFragmentViewModel.getScrollPosition());
+        Log.i(TAG, "setScrollPosition: " + latestReviewsFragmentViewModel.getScrollPosition());
+    }
+
 
     private void refreshData() {
         AsyncHttpClient client = new AsyncHttpClient();

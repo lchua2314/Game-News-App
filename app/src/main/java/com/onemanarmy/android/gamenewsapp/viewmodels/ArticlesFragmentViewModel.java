@@ -12,6 +12,15 @@ public class ArticlesFragmentViewModel extends ViewModel {
 
     private JSONArray savedResults;
     private int offset = 20;
+    private int scrollPosition = 0;
+
+    public void setScrollPosition(int scrollPosition) {
+        this.scrollPosition = scrollPosition;
+    }
+
+    public int getScrollPosition() {
+        return scrollPosition;
+    }
 
     public void updateOffset() {
         offset += 20;

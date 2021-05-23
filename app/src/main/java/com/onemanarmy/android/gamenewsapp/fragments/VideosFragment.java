@@ -45,6 +45,7 @@ public class VideosFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     VideosAdapter videosAdapter;
     VideosFragmentViewModel videosFragmentViewModel;
+    RecyclerView rvVideos;
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -61,7 +62,7 @@ public class VideosFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(() -> {
             // Your code to refresh the list here.
@@ -76,7 +77,7 @@ public class VideosFragment extends Fragment {
                 android.R.color.holo_blue_light,
                 android.R.color.holo_purple);
 
-        RecyclerView rvVideos = view.findViewById(R.id.rvVideos);
+        rvVideos = view.findViewById(R.id.rvVideos);
         videos = new ArrayList<>();
 
         // Create the adapter
@@ -123,6 +124,20 @@ public class VideosFragment extends Fragment {
         } else {
             fetchOldData();
         }
+        setScrollPosition();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        videosFragmentViewModel.setScrollPosition(
+                ((LinearLayoutManager)rvVideos.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        Log.i(TAG, "onPause: " + videosFragmentViewModel.getScrollPosition());
+    }
+
+    public void setScrollPosition() {
+        rvVideos.getLayoutManager().scrollToPosition(videosFragmentViewModel.getScrollPosition());
+        Log.i(TAG, "setScrollPosition: " + videosFragmentViewModel.getScrollPosition());
     }
 
     private void refreshData() {

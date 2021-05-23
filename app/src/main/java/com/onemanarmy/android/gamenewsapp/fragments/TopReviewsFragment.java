@@ -45,6 +45,7 @@ public class TopReviewsFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     TopReviewsAdapter topReviewsAdapter;
     TopReviewsFragmentViewModel topReviewsFragmentViewModel;
+    RecyclerView rvTopReviews;
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -61,7 +62,7 @@ public class TopReviewsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(() -> {
             // Your code to refresh the list here.
@@ -76,7 +77,7 @@ public class TopReviewsFragment extends Fragment {
                 android.R.color.holo_blue_light,
                 android.R.color.holo_purple);
 
-        RecyclerView rvTopReviews = view.findViewById(R.id.rvTopReviews);
+        rvTopReviews = view.findViewById(R.id.rvTopReviews);
         topReviews = new ArrayList<>();
 
         // Create the adapter
@@ -123,6 +124,20 @@ public class TopReviewsFragment extends Fragment {
         } else {
             fetchOldData();
         }
+        setScrollPosition();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        topReviewsFragmentViewModel.setScrollPosition(
+                ((LinearLayoutManager)rvTopReviews.getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        Log.i(TAG, "onPause: " + topReviewsFragmentViewModel.getScrollPosition());
+    }
+
+    public void setScrollPosition() {
+        rvTopReviews.getLayoutManager().scrollToPosition(topReviewsFragmentViewModel.getScrollPosition());
+        Log.i(TAG, "setScrollPosition: " + topReviewsFragmentViewModel.getScrollPosition());
     }
 
     private void refreshData() {
