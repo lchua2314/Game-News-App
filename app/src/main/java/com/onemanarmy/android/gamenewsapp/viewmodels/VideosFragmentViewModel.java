@@ -15,6 +15,7 @@ public class VideosFragmentViewModel extends ViewModel {
     private int scrollPosition = 0;
 
     public void setScrollPosition(int scrollPosition) {
+        if (scrollPosition == -1) return;
         this.scrollPosition = scrollPosition;
     }
 
