@@ -1,11 +1,13 @@
 package com.onemanarmy.android.gamenewsapp;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -20,10 +22,13 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class VideosDetailActivity extends AppCompatActivity {
 
+    private static final String TAG = "VideosDetailActivity";
     TextView tvTitle, tvDeck, tvPublishDate;
     Button btnSiteDetailUrl;
     VideoView videoView;
     ImageView ivPoster;
+    MediaController mediaControls;
+    private int videoPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +45,6 @@ public class VideosDetailActivity extends AppCompatActivity {
         tvTitle.setText(videos.getTitle());
         tvDeck.setText(videos.getDeck());
         tvPublishDate.setText(videos.getPublishDateToHumanReadable());
-
-        videoView = findViewById(R.id.vvVideo);
-
-        Uri video = Uri.parse(videos.getVideo());
-        videoView.setVideoURI(video);
-        videoView.setOnPreparedListener(mp -> {
-            mp.setLooping(true);
-            videoView.start();
-        });
 
         btnSiteDetailUrl.setOnClickListener(v -> {
             Intent intent = new Intent();
@@ -69,5 +65,58 @@ public class VideosDetailActivity extends AppCompatActivity {
                 .error(R.drawable.imagenotfound)
                 .transform(new RoundedCornersTransformation(radius, margin))
                 .into(ivPoster);
+
+        // Video
+        // set the media controller buttons
+        if (mediaControls == null)
+        {
+            mediaControls = new MediaController(VideosDetailActivity.this);
+        }
+
+        videoView = findViewById(R.id.vvVideo);
+
+        try
+        {
+            // set the media controller in the VideoView
+            videoView.setMediaController(mediaControls);
+
+            // set the uri of the video to be played
+            Uri video = Uri.parse(videos.getVideo());
+            videoView.setVideoURI(video);
+
+        } catch (Exception e)
+        {
+            Log.e("Video Error", e.getMessage());
+            e.printStackTrace();
+        }
+
+        videoView.requestFocus();
+
+        // we also set an setOnPreparedListener in order to know when the video
+        // file is ready for playback
+
+        videoView.setOnPreparedListener(mediaPlayer -> {
+            // if we have a position on savedInstanceState, the video
+            // playback should start from here
+            videoView.seekTo(videoPosition);
+
+            Log.i(TAG, "video is ready for playing");
+
+            if (videoPosition == 0)
+            {
+                videoView.start();
+            } else
+            {
+                // if we come from a resumed activity, video playback will
+                // be paused
+                videoView.pause();
+            }
+            mediaControls.setAnchorView(videoView);
+        });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

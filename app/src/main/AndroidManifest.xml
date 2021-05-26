@@ -18,7 +18,8 @@
         <activity android:name=".TopReviewsDetailActivity"
             android:label="@string/actionBarNameTopReviewsDetailActivity"></activity>
         <activity android:name=".VideosDetailActivity"
-            android:label="@string/actionBarNameVideosDetailActivity"></activity>
+            android:label="@string/actionBarNameVideosDetailActivity"
+            android:configChanges="orientation|screenSize"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

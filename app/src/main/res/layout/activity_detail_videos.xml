@@ -20,13 +20,13 @@
             android:id="@+id/vvVideo"
             android:transitionName="video"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
         <ImageView
             android:id="@+id/ivPoster"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
