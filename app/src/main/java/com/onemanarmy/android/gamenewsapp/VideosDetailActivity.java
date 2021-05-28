@@ -107,7 +107,6 @@ public class VideosDetailActivity extends AppCompatActivity {
             if (videoPosition == 0)
             {
                 videoView.start();
-                getSupportActionBar().hide();
             } else
             {
                 // if we come from a resumed activity, video playback will
@@ -120,12 +119,6 @@ public class VideosDetailActivity extends AppCompatActivity {
         // Hide media controls when scrolling
         View scrollView = findViewById(R.id.svDetailVideos);
         scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
-            int scrollY = scrollView.getScrollY(); //for verticalScrollView
-            if (scrollY == 0) {
-                getSupportActionBar().hide();
-            } else {
-                getSupportActionBar().show();
-            }
                 mediaControls.hide();
         });
     }
