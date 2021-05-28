@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -105,6 +107,7 @@ public class VideosDetailActivity extends AppCompatActivity {
             if (videoPosition == 0)
             {
                 videoView.start();
+                getSupportActionBar().hide();
             } else
             {
                 // if we come from a resumed activity, video playback will
@@ -112,6 +115,18 @@ public class VideosDetailActivity extends AppCompatActivity {
                 videoView.pause();
             }
             mediaControls.setAnchorView(videoView);
+        });
+
+        // Hide media controls when scrolling
+        View scrollView = findViewById(R.id.svDetailVideos);
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            int scrollY = scrollView.getScrollY(); //for verticalScrollView
+            if (scrollY == 0) {
+                getSupportActionBar().hide();
+            } else {
+                getSupportActionBar().show();
+            }
+                mediaControls.hide();
         });
     }
 
