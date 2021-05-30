@@ -36,7 +36,7 @@ Scrolls through various video articles and movie news articles, the latest artic
 
 - [X] User can drag down at the top of one of the scrolls to refresh to check for more articles/reviews/videos.
 - [X] Infinite pagination
-- [ ] User can select different quality videos in the Videos Screen.
+- [X] User can select different quality videos in the Videos Screen.
 - [ ] Search bar for each category.
 - [ ] Favorites tab that can store any articles/reviews/videos that the user can store on their device or a backend database.
 - [ ] Settings tab that the user can set certain settings such as light/dark mode, text font, themes, etc.
