@@ -13,9 +13,11 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.onemanarmy.android.gamenewsapp.models.Videos;
+import com.onemanarmy.android.gamenewsapp.viewmodels.VideosDetailActivityViewModel;
 
 import org.parceler.Parcels;
 
@@ -25,11 +27,13 @@ public class VideosDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "VideosDetailActivity";
     TextView tvTitle, tvDeck, tvPublishDate;
-    Button btnSiteDetailUrl;
+    Button btnSiteDetailUrl, btnChangeVideoQuality;
     VideoView videoView;
     ImageView ivPoster;
     MediaController mediaControls;
+    VideosDetailActivityViewModel videosDetailActivityViewModel;
     private int videoPosition = 0;
+    Videos videos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +45,14 @@ public class VideosDetailActivity extends AppCompatActivity {
         tvPublishDate = findViewById(R.id.tvPublishDate);
         ivPoster = findViewById(R.id.ivPoster);
         btnSiteDetailUrl = findViewById(R.id.btnSiteDetailUrl);
+        btnChangeVideoQuality = findViewById(R.id.btnChangeVideoQuality);
 
-        Videos videos = Parcels.unwrap(getIntent().getParcelableExtra("video"));
+        videos = Parcels.unwrap(getIntent().getParcelableExtra("video"));
         tvTitle.setText(videos.getTitle());
         tvDeck.setText(videos.getDeck());
         tvPublishDate.setText(videos.getPublishDateToHumanReadable());
+
+        videosDetailActivityViewModel = new ViewModelProvider(this).get(VideosDetailActivityViewModel.class);
 
         btnSiteDetailUrl.setOnClickListener(v -> {
             Intent intent = new Intent();
@@ -53,6 +60,10 @@ public class VideosDetailActivity extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_BROWSABLE);
             intent.setData(Uri.parse(videos.getSiteDetailUrl()));
             startActivity(intent);
+        });
+
+        btnChangeVideoQuality.setOnClickListener(v -> {
+            changeVideoQuality();
         });
 
         String imageUrl = videos.getOriginalPosterPath();
@@ -82,8 +93,7 @@ public class VideosDetailActivity extends AppCompatActivity {
             videoView.setMediaController(mediaControls);
 
             // set the uri of the video to be played
-            Uri video = Uri.parse(videos.getVideo());
-            videoView.setVideoURI(video);
+            setVideoQuality();
 
         } catch (Exception e)
         {
@@ -119,6 +129,60 @@ public class VideosDetailActivity extends AppCompatActivity {
         View scrollView = findViewById(R.id.svDetailVideos);
         scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
                 mediaControls.hide();
+        });
+    }
+
+    private void setVideoQuality() {
+        String quality = videosDetailActivityViewModel.getVideoQuality();
+        String btnText = "Change video quality to ";
+        Uri video;
+
+        switch (quality) {
+            case "high_url":
+                video = Uri.parse(videos.getHighUrlVideo());
+                btnChangeVideoQuality.setText(btnText + "HD");
+                break;
+            case "hd_url":
+                video = Uri.parse(videos.getHdUrlVideo());
+                btnChangeVideoQuality.setText(btnText + "low");
+                break;
+            default: // "low_url"
+                video = Uri.parse(videos.getLowUrlVideo());
+                btnChangeVideoQuality.setText(btnText + "high");
+        }
+
+        videoView.setVideoURI(video);
+    }
+
+    private void changeVideoQuality() {
+        String quality = videosDetailActivityViewModel.getVideoQuality();
+        String btnText = "Change video quality to ";
+        Uri video;
+        int progress = videoView.getCurrentPosition();
+        Log.i(TAG, "Current Position: " + progress);
+
+        switch (quality) {
+            case "high_url":
+                video = Uri.parse(videos.getHdUrlVideo());
+                videosDetailActivityViewModel.setVideoQuality("hd_url");
+                btnChangeVideoQuality.setText(btnText + "low");
+                break;
+            case "hd_url":
+                video = Uri.parse(videos.getLowUrlVideo());
+                videosDetailActivityViewModel.setVideoQuality("low_url");
+                btnChangeVideoQuality.setText(btnText + "high");
+                break;
+            default: // "low_url"
+                video = Uri.parse(videos.getHighUrlVideo());
+                videosDetailActivityViewModel.setVideoQuality("high_url");
+                btnChangeVideoQuality.setText(btnText + "HD");
+        }
+
+        videoView.setVideoURI(video);
+        mediaControls.hide();
+        videoView.setOnPreparedListener(mediaPlayer -> {
+            videoView.seekTo(progress);
+            mediaControls.setAnchorView(videoView);
         });
     }
 

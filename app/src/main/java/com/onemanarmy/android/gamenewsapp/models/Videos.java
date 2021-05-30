@@ -17,7 +17,8 @@ import java.util.List;
 public class Videos {
 
     String backdropPath, posterPath, originalPosterPath,
-            title, deck, publishDate, siteDetailUrl, high_url;
+            title, deck, publishDate, siteDetailUrl,
+            low_url, high_url, hd_url;
 
     // empty constructor needed by the Parceler library
     public Videos() {}
@@ -31,7 +32,9 @@ public class Videos {
         title = jsonObject.getString("title");
         deck = jsonObject.getString("deck");
         publishDate = jsonObject.getString("publish_date");
+        low_url = jsonObject.getString("low_url");
         high_url = jsonObject.getString("high_url");
+        hd_url = jsonObject.getString("hd_url");
 
         siteDetailUrl = jsonObject.getString("site_detail_url");
     }
@@ -118,5 +121,9 @@ public class Videos {
 
     public String getSiteDetailUrl() { return siteDetailUrl; }
 
-    public String getVideo() { return high_url; }
+    public String getHighUrlVideo() { return high_url; }
+
+    public String getLowUrlVideo() { return low_url; }
+
+    public String getHdUrlVideo() { return hd_url; }
 }
