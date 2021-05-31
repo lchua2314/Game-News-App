@@ -16,6 +16,13 @@
         android:transitionName="articles"
         android:layout_margin="5dp">
 
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"/>
+
         <VideoView
             android:id="@+id/vvVideo"
             android:transitionName="video"
@@ -27,17 +34,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center">
         </VideoView>
-
-        <Button
-            android:id="@+id/btnChangeVideoQuality"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_margin="10dp"
-            android:background="#000111"
-            android:textColor="#EEEEEE"
-            android:text="Change video quality to HD" />
 
         <ImageView
             android:id="@+id/ivPoster"
