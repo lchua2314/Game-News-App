@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="SpinnerTheme">
-        <item name="android:background">#000111</item>
+        <item name="android:background">@color/dark_theme_black</item>
     </style>
 </resources>

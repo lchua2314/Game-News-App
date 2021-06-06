@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#000111"
+    android:background="@color/dark_theme_black"
     android:id="@+id/svDetailVideos">
 
     <LinearLayout
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".VideosDetailActivity"
         android:orientation="vertical"
-        android:background="#222333"
+        android:background="@color/dark_theme_blue"
         android:transitionName="articles"
         android:layout_margin="5dp">
 
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="Video Resolution:"
-                android:textColor="#EEEEEE"
+                android:textColor="@color/dark_theme_text_color"
                 android:textSize="15sp"
                 android:padding="10dp"
                 android:layout_marginBottom="10dp"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textSize="30sp"
-            android:textColor="#EEEEEE"
+            android:textColor="@color/dark_theme_text_color"
             tools:text="Nomadland Wins Three Oscars At 93rd Academy Awards" />
 
         <TextView
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textSize="18dp"
-            android:textColor="#EEEEEE"
+            android:textColor="@color/dark_theme_text_color"
             tools:text="Nomadland was the most-winning film for this year's Oscars." />
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:textSize="14dp"
             android:layout_margin="10dp"
-            android:textColor="#EEEEEE"
+            android:textColor="@color/dark_theme_text_color"
             tools:text="1 hour ago" />
 
         <Button
@@ -97,8 +97,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_margin="10dp"
-            android:background="#000111"
-            android:textColor="#EEEEEE"
+            android:background="@color/dark_theme_black"
+            android:textColor="@color/dark_theme_text_color"
             android:text="Go to webpage"
             android:autoLink="all"/>
     </LinearLayout>
