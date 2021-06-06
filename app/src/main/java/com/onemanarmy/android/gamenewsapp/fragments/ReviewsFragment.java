@@ -1,6 +1,5 @@
 package com.onemanarmy.android.gamenewsapp.fragments;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,9 +22,9 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.EndlessRecyclerViewScrollListener;
 import com.onemanarmy.android.gamenewsapp.R;
-import com.onemanarmy.android.gamenewsapp.adapters.LatestReviewsAdapter;
-import com.onemanarmy.android.gamenewsapp.models.LatestReviews;
-import com.onemanarmy.android.gamenewsapp.viewmodels.LatestReviewsFragmentViewModel;
+import com.onemanarmy.android.gamenewsapp.adapters.ReviewsAdapter;
+import com.onemanarmy.android.gamenewsapp.models.Reviews;
+import com.onemanarmy.android.gamenewsapp.viewmodels.ReviewsFragmentViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,20 +35,20 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class LatestReviewsFragment extends Fragment {
+public class ReviewsFragment extends Fragment {
 
     public static final String consumerKey = BuildConfig.CONSUMER_KEY;
     // Obtains latest reviews in JSON, limited to 20 latest reviews, and sorted by latest date
     public static final String LATEST_REVIEWS_URL = "https://www.gamespot.com/api/reviews/?api_key="
             + consumerKey + "&format=json&limit=20&sort=update_date:desc";
-    public static final String TAG = "LatestReviewsFragment";
+    public static final String TAG = "ReviewsFragment";
 
-    List<LatestReviews> latestReviews;
+    List<Reviews> reviews;
 
     private SwipeRefreshLayout swipeContainer;
-    LatestReviewsAdapter latestReviewsAdapter;
-    LatestReviewsFragmentViewModel latestReviewsFragmentViewModel;
-    RecyclerView rvLatestReviews;
+    ReviewsAdapter reviewsAdapter;
+    ReviewsFragmentViewModel reviewsFragmentViewModel;
+    RecyclerView rvReviews;
 
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -58,7 +57,7 @@ public class LatestReviewsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_latest_reviews, container, false);
+        return inflater.inflate(R.layout.fragment_reviews, container, false);
     }
 
     @Override
@@ -73,7 +72,7 @@ public class LatestReviewsFragment extends Fragment {
             // Make sure you call swipeContainer.setRefreshing(false)
             // once the network request has completed successfully.
             refreshData();
-            latestReviewsFragmentViewModel.resetOffset();
+            reviewsFragmentViewModel.resetOffset();
         });
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark,
@@ -81,23 +80,23 @@ public class LatestReviewsFragment extends Fragment {
                 android.R.color.holo_blue_light,
                 android.R.color.holo_purple);
 
-        rvLatestReviews = view.findViewById(R.id.rvLatestReviews);
-        latestReviews = new ArrayList<>();
+        rvReviews = view.findViewById(R.id.rvReviews);
+        reviews = new ArrayList<>();
 
         // Create the adapter
-        latestReviewsAdapter = new LatestReviewsAdapter(getContext(), latestReviews);
+        reviewsAdapter = new ReviewsAdapter(getContext(), reviews);
 
         // Set the adapter on the recycler view
-        rvLatestReviews.setAdapter(latestReviewsAdapter);
+        rvReviews.setAdapter(reviewsAdapter);
 
         // Linear Layout
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         // Set a Layout Manager on the recycler view
-        rvLatestReviews.setLayoutManager(linearLayoutManager);
+        rvReviews.setLayoutManager(linearLayoutManager);
 
         // ViewModel that would save data over tab changes
-        latestReviewsFragmentViewModel = new ViewModelProvider(requireActivity()).get(LatestReviewsFragmentViewModel.class);
+        reviewsFragmentViewModel = new ViewModelProvider(requireActivity()).get(ReviewsFragmentViewModel.class);
 
         // EndlessRecyclerViewScrollListener - Loads the next 20 cards when user hit the bottom
         // Retain an instance so that you can call `resetState()` for fresh searches
@@ -105,15 +104,15 @@ public class LatestReviewsFragment extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list
-                loadNextDataFromApi(latestReviewsFragmentViewModel.getOffset());
-                latestReviewsFragmentViewModel.updateOffset();
+                loadNextDataFromApi(reviewsFragmentViewModel.getOffset());
+                reviewsFragmentViewModel.updateOffset();
             }
         };
 
         // Adds the scroll listener to RecyclerView
-        rvLatestReviews.addOnScrollListener(scrollListener);
+        rvReviews.addOnScrollListener(scrollListener);
 
-        JSONArray storedData = latestReviewsFragmentViewModel.getResults();
+        JSONArray storedData = reviewsFragmentViewModel.getResults();
 
         // Check if storedData actually has data.
         // If not, fetch data from API then store it in ViewModel.
@@ -121,8 +120,8 @@ public class LatestReviewsFragment extends Fragment {
             try {
                 Log.i(TAG, "Stored Results: " + storedData.toString());
 
-                latestReviews.addAll(LatestReviews.fromJsonArray(storedData));
-                latestReviewsAdapter.notifyDataSetChanged();
+                reviews.addAll(Reviews.fromJsonArray(storedData));
+                reviewsAdapter.notifyDataSetChanged();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -144,7 +143,7 @@ public class LatestReviewsFragment extends Fragment {
         dropdown.setAdapter(adapter);
 
         // Default already sets to "Newest"
-        dropdown.setSelection(latestReviewsFragmentViewModel.getReviewPosition(), false); // default set to latest
+        dropdown.setSelection(reviewsFragmentViewModel.getReviewPosition(), false); // default set to latest
 
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -155,23 +154,23 @@ public class LatestReviewsFragment extends Fragment {
                 switch (position) {
                     case 0: // change to latest
                         Log.i(TAG, "case 0 - Newest = Latest");
-                        latestReviewsFragmentViewModel.setReviewUrlToLatest();
+                        reviewsFragmentViewModel.setReviewUrlToLatest();
                         break;
                     case 1: // change to top
                         Log.i(TAG, "case 1 - Highest Rated = Top");
-                        latestReviewsFragmentViewModel.setReviewUrlToTop();
+                        reviewsFragmentViewModel.setReviewUrlToTop();
                         break;
                     default: // change to lowest
                         Log.i(TAG, "default case - Lowest Rated = Low");
-                        latestReviewsFragmentViewModel.setReviewUrlToLow();
+                        reviewsFragmentViewModel.setReviewUrlToLow();
                 }
-                latestReviewsAdapter.clear();
+                reviewsAdapter.clear();
                 refreshData(); // So new data is loaded
                 // Reset offset
-                latestReviewsFragmentViewModel.resetOffset();
+                reviewsFragmentViewModel.resetOffset();
                 // Set scroll position since refreshData() is initially only for the refresh feature.
                 // 1. Save new scroll position in view model
-                latestReviewsFragmentViewModel.setScrollPosition(0);
+                reviewsFragmentViewModel.setScrollPosition(0);
                 // 2. Set new scroll position on view
                 setScrollPosition();
             }
@@ -187,31 +186,31 @@ public class LatestReviewsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        latestReviewsFragmentViewModel.setScrollPosition(getPosition());
-        Log.i(TAG, "onPause: " + latestReviewsFragmentViewModel.getScrollPosition());
+        reviewsFragmentViewModel.setScrollPosition(getPosition());
+        Log.i(TAG, "onPause: " + reviewsFragmentViewModel.getScrollPosition());
     }
 
     private int getPosition() {
         int firstCompletelyVisibleItemPosition =
-                ((LinearLayoutManager)rvLatestReviews.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                ((LinearLayoutManager)rvReviews.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
         // If there is not a completely visible item,
         // it would return -1 so just get the first
         // visible item instead.
         if (firstCompletelyVisibleItemPosition == -1)
-            return ((LinearLayoutManager)rvLatestReviews.getLayoutManager()).findFirstVisibleItemPosition();
+            return ((LinearLayoutManager)rvReviews.getLayoutManager()).findFirstVisibleItemPosition();
 
         return firstCompletelyVisibleItemPosition;
     }
 
     public void setScrollPosition() {
-        rvLatestReviews.getLayoutManager().scrollToPosition(latestReviewsFragmentViewModel.getScrollPosition());
-        Log.i(TAG, "setScrollPosition: " + latestReviewsFragmentViewModel.getScrollPosition());
+        rvReviews.getLayoutManager().scrollToPosition(reviewsFragmentViewModel.getScrollPosition());
+        Log.i(TAG, "setScrollPosition: " + reviewsFragmentViewModel.getScrollPosition());
     }
 
     private void refreshData() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(latestReviewsFragmentViewModel.getReviewUrl(), new JsonHttpResponseHandler() {
+        client.get(reviewsFragmentViewModel.getReviewUrl(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -220,22 +219,22 @@ public class LatestReviewsFragment extends Fragment {
                     JSONArray results = jsonObject.getJSONArray("results");
 
                     // Empties the JSONArray in ViewModel
-                    latestReviewsFragmentViewModel.resetResults();
+                    reviewsFragmentViewModel.resetResults();
 
                     // Saves the data of the first 20 cards from API call
-                    latestReviewsFragmentViewModel.saveResults(results);
-                    Log.i(TAG, "Just Stored Results: " + latestReviewsFragmentViewModel.getResults());
+                    reviewsFragmentViewModel.saveResults(results);
+                    Log.i(TAG, "Just Stored Results: " + reviewsFragmentViewModel.getResults());
 
                     // Remember to CLEAR OUT old items before appending in the new ones
-                    latestReviewsAdapter.clear();
+                    reviewsAdapter.clear();
 
                     // ...the data has come back, add new items to your adapter...
-                    latestReviews.addAll(LatestReviews.fromJsonArray(results));
+                    reviews.addAll(Reviews.fromJsonArray(results));
 
                     // Now we call setRefreshing(false) to signal refresh has finished
                     swipeContainer.setRefreshing(false);
-                    latestReviewsAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Latest Reviews: " + latestReviews.size());
+                    reviewsAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Latest Reviews: " + reviews.size());
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
                 }
@@ -252,19 +251,19 @@ public class LatestReviewsFragment extends Fragment {
     // This method probably sends out a network request and appends new data items to your adapter.
     public void loadNextDataFromApi(int offset) {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(latestReviewsFragmentViewModel.getReviewUrl() + "&offset=" + offset, new JsonHttpResponseHandler() {
+        client.get(reviewsFragmentViewModel.getReviewUrl() + "&offset=" + offset, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
                 JSONObject jsonObject = json.jsonObject;
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
-                    latestReviewsFragmentViewModel.saveResults(results);
-                    Log.i(TAG, "Just Stored Results: " + latestReviewsFragmentViewModel.getResults());
+                    reviewsFragmentViewModel.saveResults(results);
+                    Log.i(TAG, "Just Stored Results: " + reviewsFragmentViewModel.getResults());
                     // ...the data has come back, add new items to your adapter...
-                    latestReviews.addAll(LatestReviews.fromJsonArray(results));
-                    latestReviewsAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Latest Reviews: " + latestReviews.size());
+                    reviews.addAll(Reviews.fromJsonArray(results));
+                    reviewsAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Latest Reviews: " + reviews.size());
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
                 }
@@ -279,23 +278,23 @@ public class LatestReviewsFragment extends Fragment {
 
     private void fetchOldData() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(latestReviewsFragmentViewModel.getReviewUrl(), new JsonHttpResponseHandler() {
+        client.get(reviewsFragmentViewModel.getReviewUrl(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
                 JSONObject jsonObject = json.jsonObject;
                 try {
                     JSONArray results = jsonObject.getJSONArray("results");
-                    latestReviewsFragmentViewModel.saveResults(results);
-                    Log.i(TAG, "Just Stored Results: " + latestReviewsFragmentViewModel.getResults());
+                    reviewsFragmentViewModel.saveResults(results);
+                    Log.i(TAG, "Just Stored Results: " + reviewsFragmentViewModel.getResults());
                     // Remember to CLEAR OUT old items before appending in the new ones
-                    latestReviewsAdapter.clear();
+                    reviewsAdapter.clear();
                     // ...the data has come back, add new items to your adapter...
-                    latestReviews.addAll(LatestReviews.fromJsonArray(results));
+                    reviews.addAll(Reviews.fromJsonArray(results));
                     // Now we call setRefreshing(false) to signal refresh has finished
                     swipeContainer.setRefreshing(false);
-                    latestReviewsAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "LatestReviews: " + latestReviews.size());
+                    reviewsAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Reviews: " + reviews.size());
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
                 }

@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.onemanarmy.android.gamenewsapp.fragments.ArticlesFragment;
-import com.onemanarmy.android.gamenewsapp.fragments.LatestReviewsFragment;
+import com.onemanarmy.android.gamenewsapp.fragments.ReviewsFragment;
 import com.onemanarmy.android.gamenewsapp.fragments.VideosFragment;
 
 
@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new ArticlesFragment();
                     tab = "articles";
                     break;
-                case R.id.action_latest_reviews:
-                    fragment = new LatestReviewsFragment();
-                    tab = "latest_reviews";
+                case R.id.action_reviews:
+                    fragment = new ReviewsFragment();
+                    tab = "reviews";
                     break;
                 case R.id.action_videos:
                 default:
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             String currentTab = savedInstanceState.getString(KEY_INDEX, "null");
             switch (currentTab) {
-                case "latest_reviews":
-                    bottomNavigationView.setSelectedItemId(R.id.action_latest_reviews);
+                case "reviews":
+                    bottomNavigationView.setSelectedItemId(R.id.action_reviews);
                     break;
                 case "videos":
                     bottomNavigationView.setSelectedItemId(R.id.action_videos);

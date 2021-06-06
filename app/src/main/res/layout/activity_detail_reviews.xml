@@ -5,12 +5,12 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/dark_theme_black"
-    android:id="@+id/svDetailLatestReviews">
+    android:id="@+id/svDetailReviews">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".LatestReviewsDetailActivity"
+        tools:context=".ReviewsDetailActivity"
         android:orientation="vertical"
         android:background="@color/dark_theme_blue"
         android:transitionName="articles"
@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/ivPoster"
-            android:transitionName="latestReviews"
+            android:transitionName="reviews"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             tools:srcCompat="@tools:sample/avatars" />

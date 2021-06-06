@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/ivPoster"
-        android:transitionName="latestReviews"
+        android:transitionName="reviews"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginStart="0dp"
@@ -27,16 +27,16 @@
         android:layout_toStartOf="@+id/ivStar"
         android:layout_toEndOf="@+id/ivPoster"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="3"
         android:textColor="@color/dark_theme_text_color"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:typeface="serif"
         tools:text="Nomadland Wins Three Oscars At 93rd Academy Awards" />
 
     <ImageView
         android:id="@+id/ivStar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-2dp"
@@ -50,16 +50,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="13dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="9dp"
         android:text="8.0"
         android:textColor="@color/dark_theme_text_color"
-        android:textSize="15sp"
+        android:textSize="11sp"
         android:typeface="serif" />
 
     <TextView
         android:id="@+id/tvDeck"
-        android:layout_width="wrap_content"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_alignEnd="@+id/tvTitle"
@@ -70,7 +70,7 @@
         android:ellipsize="end"
         android:maxLines="3"
         android:textColor="@color/dark_theme_text_color"
-        android:textSize="13sp"
+        android:textSize="11sp"
         android:typeface="serif"
         tools:text="Nomadland was the most-winning film for this year's Oscars." />
 
@@ -83,7 +83,7 @@
         android:layout_marginBottom="4dp"
         android:layout_toEndOf="@+id/ivPoster"
         android:textColor="@color/dark_theme_text_color"
-        android:textSize="15sp"
+        android:textSize="11sp"
         android:typeface="serif"
         tools:text="Eddie Makuch" />
 
@@ -96,7 +96,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:textColor="@color/dark_theme_text_color"
-        android:textSize="15sp"
+        android:textSize="11sp"
         android:typeface="serif"
         tools:text="1 hour ago" />
 

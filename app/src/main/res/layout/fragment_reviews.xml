@@ -40,7 +40,7 @@
         tools:context=".MainActivity">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvLatestReviews"
+            android:id="@+id/rvReviews"
             android:layout_width="0dp"
             android:layout_height="0dp" />
 

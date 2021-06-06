@@ -13,8 +13,8 @@
         android:theme="@style/Theme.GameNewsApp">
         <activity android:name=".ArticlesDetailActivity"
             android:label="@string/actionBarNameArticlesDetailActivity"></activity>
-        <activity android:name=".LatestReviewsDetailActivity"
-            android:label="@string/actionBarNameLatestReviewsDetailActivity"></activity>
+        <activity android:name=".ReviewsDetailActivity"
+            android:label="@string/actionBarNameReviewsDetailActivity"></activity>
         <activity android:name=".VideosDetailActivity"
             android:label="@string/actionBarNameVideosDetailActivity"
             android:configChanges="orientation|screenSize"></activity>

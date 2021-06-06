@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class LatestReviewsFragmentViewModel extends ViewModel {
+public class ReviewsFragmentViewModel extends ViewModel {
 
     private JSONArray savedResults;
     private int offset = 20;
