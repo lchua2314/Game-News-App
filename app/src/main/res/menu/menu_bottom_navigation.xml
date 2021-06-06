@@ -10,7 +10,7 @@
     <item
         android:id="@+id/action_reviews"
         android:icon="@drawable/ic_top_review"
-        android:title="Latest Reviews"
+        android:title="Reviews"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_videos"
