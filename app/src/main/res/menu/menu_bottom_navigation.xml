@@ -9,13 +9,8 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/action_latest_reviews"
-        android:icon="@drawable/ic_review"
-        android:title="Latest Reviews"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_top_reviews"
         android:icon="@drawable/ic_top_review"
-        android:title="Top Reviews"
+        android:title="Latest Reviews"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_videos"

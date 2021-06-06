@@ -15,8 +15,6 @@
             android:label="@string/actionBarNameArticlesDetailActivity"></activity>
         <activity android:name=".LatestReviewsDetailActivity"
             android:label="@string/actionBarNameLatestReviewsDetailActivity"></activity>
-        <activity android:name=".TopReviewsDetailActivity"
-            android:label="@string/actionBarNameTopReviewsDetailActivity"></activity>
         <activity android:name=".VideosDetailActivity"
             android:label="@string/actionBarNameVideosDetailActivity"
             android:configChanges="orientation|screenSize"></activity>

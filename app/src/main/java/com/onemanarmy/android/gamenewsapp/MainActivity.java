@@ -1,7 +1,6 @@
 package com.onemanarmy.android.gamenewsapp;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.onemanarmy.android.gamenewsapp.fragments.ArticlesFragment;
 import com.onemanarmy.android.gamenewsapp.fragments.LatestReviewsFragment;
-import com.onemanarmy.android.gamenewsapp.fragments.TopReviewsFragment;
 import com.onemanarmy.android.gamenewsapp.fragments.VideosFragment;
 
 
@@ -44,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new LatestReviewsFragment();
                     tab = "latest_reviews";
                     break;
-                case R.id.action_top_reviews:
-                    fragment = new TopReviewsFragment();
-                    tab = "top_reviews";
-                    break;
                 case R.id.action_videos:
                 default:
                     fragment = new VideosFragment();
@@ -69,9 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 case "latest_reviews":
                     bottomNavigationView.setSelectedItemId(R.id.action_latest_reviews);
                     break;
-                case "top_reviews":
-                    bottomNavigationView.setSelectedItemId(R.id.action_top_reviews);
-                    break;
                 case "videos":
                     bottomNavigationView.setSelectedItemId(R.id.action_videos);
                     break;
@@ -79,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     bottomNavigationView.setSelectedItemId(R.id.action_articles);
             }
-        } else bottomNavigationView.setSelectedItemId(R.id.action_latest_reviews);
+        } else bottomNavigationView.setSelectedItemId(R.id.action_articles);
     }
 
     // Saves what tab the user is on over configuration changes.
