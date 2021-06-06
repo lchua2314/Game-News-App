@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     bottomNavigationView.setSelectedItemId(R.id.action_articles);
             }
-        } else bottomNavigationView.setSelectedItemId(R.id.action_articles);
+        } else bottomNavigationView.setSelectedItemId(R.id.action_latest_reviews);
     }
 
     // Saves what tab the user is on over configuration changes.
