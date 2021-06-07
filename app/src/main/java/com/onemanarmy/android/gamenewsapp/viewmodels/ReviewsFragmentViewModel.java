@@ -73,9 +73,6 @@ public class ReviewsFragmentViewModel extends ViewModel {
     }
 
     public JSONArray getResults() {
-        // TODO: Move model data out of controller logic
-        if (savedResults == null) {
-        }
         return savedResults;
     }
 
@@ -97,6 +94,6 @@ public class ReviewsFragmentViewModel extends ViewModel {
     }
 
     public void resetResults() {
-        savedResults = new JSONArray(new ArrayList<String>());
+        savedResults = null;
     }
 }

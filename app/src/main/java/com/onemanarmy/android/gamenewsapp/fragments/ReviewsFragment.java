@@ -164,13 +164,23 @@ public class ReviewsFragment extends Fragment {
                         Log.i(TAG, "default case - Lowest Rated = Low");
                         reviewsFragmentViewModel.setReviewUrlToLow();
                 }
+                // Fixes bug in which user switches tabs too quickly before
+                // refreshData() finishes executing.
+                reviewsFragmentViewModel.resetResults();
+
+                // Update UI with no data to give feedback to user that
+                // it is reloading.
                 reviewsAdapter.clear();
+
                 refreshData(); // So new data is loaded
+
                 // Reset offset
                 reviewsFragmentViewModel.resetOffset();
+
                 // Set scroll position since refreshData() is initially only for the refresh feature.
                 // 1. Save new scroll position in view model
                 reviewsFragmentViewModel.setScrollPosition(0);
+
                 // 2. Set new scroll position on view
                 setScrollPosition();
             }
