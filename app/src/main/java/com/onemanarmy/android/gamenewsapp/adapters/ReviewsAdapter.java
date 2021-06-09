@@ -88,7 +88,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         public void bind(Reviews reviews) {
             tvTitle.setText(reviews.getTitle());
             tvDeck.setText(reviews.getDeck());
-            tvAuthors.setText(reviews.getAuthors().split(",")[0]); // set to one author
+            tvAuthors.setText(reviews.getAuthors());
             tvUpdateDate.setText(reviews.getUpdateDateTimeFromNow());
 
             String score = reviews.getScore();

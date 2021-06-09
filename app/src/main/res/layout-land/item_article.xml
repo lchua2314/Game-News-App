@@ -55,6 +55,7 @@
         android:layout_alignBottom="@+id/ivPoster"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
+        android:layout_toStartOf="@+id/tvPublishDate"
         android:layout_toEndOf="@+id/ivPoster"
         android:textColor="@color/dark_theme_text_color"
         android:textSize="15sp"
