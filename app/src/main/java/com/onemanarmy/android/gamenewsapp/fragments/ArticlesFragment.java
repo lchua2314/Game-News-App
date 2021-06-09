@@ -165,6 +165,7 @@ public class ArticlesFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 setFilter(query);
+                searchView.clearFocus(); // Allows user to open detail views and go back without the keyboard opening
                 return false;
             }
             @Override
