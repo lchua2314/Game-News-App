@@ -87,7 +87,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
         public void bind(Articles articles) {
             tvTitle.setText(articles.getTitle());
             tvDeck.setText(articles.getDeck());
-            tvAuthors.setText(articles.getAuthors());
+            tvAuthors.setText(articles.getAuthors().split(",")[0]); // set to one author
             tvPublishDate.setText(articles.getPublishDateTimeFromNow());
 
             String imageUrl;
