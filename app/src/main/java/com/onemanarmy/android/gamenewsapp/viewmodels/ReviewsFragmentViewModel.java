@@ -29,26 +29,44 @@ public class ReviewsFragmentViewModel extends ViewModel {
     public static final String LOW_REVIEWS_URL = "https://www.gamespot.com/api/reviews/?api_key="
             + consumerKey + "&format=json&limit=20&sort=score:asc,update_date:desc";
 
-    private String reviewUrl = LATEST_REVIEWS_URL;
-
     private int reviewPosition = 0;
+    private String currentUrl = LATEST_REVIEWS_URL;
+    private String lastFilter = "";
 
-    public int getReviewPosition() { return this.reviewPosition; }
+    public String getLastFilter() { return lastFilter; }
 
-    public String getReviewUrl() { return reviewUrl; }
+    public void setLastFilter(String lastFilter) { this.lastFilter = lastFilter; }
 
-    public void setReviewUrlToLatest() {
-        this.reviewUrl = LATEST_REVIEWS_URL;
+    public void setFilterOnCurrentUrl(String filter) {
+        this.currentUrl += "&filter=title:" + filter;
+        setLastFilter(filter);
+    }
+
+    public int getReviewPosition() { return reviewPosition; }
+
+    public String getCurrentUrl() { return currentUrl; }
+
+    private void updateWithLastFilter(String currentQuery) {
+        if (lastFilter.equals("")) {
+            this.currentUrl = currentQuery;
+            return;
+        }
+
+        this.currentUrl = currentQuery + "&filter=title:" + lastFilter;
+    }
+
+    public void setCurrentUrlToLatest() {
+        updateWithLastFilter(LATEST_REVIEWS_URL);
         this.reviewPosition = 0;
     }
 
-    public void setReviewUrlToTop() {
-        this.reviewUrl = TOP_REVIEWS_URL;
+    public void setCurrentUrlToTop() {
+        updateWithLastFilter(TOP_REVIEWS_URL);
         this.reviewPosition = 1;
     }
 
-    public void setReviewUrlToLow() {
-        this.reviewUrl = LOW_REVIEWS_URL;
+    public void setCurrentUrlToLow() {
+        updateWithLastFilter(LOW_REVIEWS_URL);
         this.reviewPosition = 2;
     }
 

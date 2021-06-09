@@ -1,11 +1,15 @@
 package com.onemanarmy.android.gamenewsapp.fragments;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,8 +21,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.EndlessRecyclerViewScrollListener;
+import com.onemanarmy.android.gamenewsapp.MainActivity;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.ArticlesAdapter;
 import com.onemanarmy.android.gamenewsapp.models.Articles;
@@ -35,12 +39,7 @@ import okhttp3.Headers;
 
 public class ArticlesFragment extends Fragment {
 
-    public static final String consumerKey = BuildConfig.CONSUMER_KEY;
-    // Obtains news articles in JSON, limited to 20 articles, and sorted by latest date
-    public static final String GAME_NEWS_URL = "https://www.gamespot.com/api/articles/?api_key="
-            + consumerKey + "&format=json&limit=20&sort=publish_date:desc";
     public static final String TAG = "ArticlesFragment";
-    private static final String BUNDLE_RECYCLER_LAYOUT = "ArticlesFragment.recycler.layout";
 
     List<Articles> articles;
 
@@ -62,6 +61,9 @@ public class ArticlesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Needed for search bar or else it won't show
+        setHasOptionsMenu(true);
 
         // Lookup the swipe container view
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -131,6 +133,76 @@ public class ArticlesFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
+
+        // Clear Query Button
+        MenuItem clearItem = menu.findItem(R.id.clear);
+
+        Button clearBtn = new Button(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+
+        //clearItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        clearItem.setActionView(clearBtn);
+
+        clearBtn.setText("Clear");
+        clearBtn.setBackgroundColor(getResources().getColor(R.color.dark_theme_blue));
+
+        clearBtn.setOnClickListener(v -> setFilter(""));
+        clearItem.setOnMenuItemClickListener(v -> {
+            setFilter("");
+            return false;
+        });
+
+        // Search Bar
+        MenuItem item = menu.findItem(R.id.search_bar);
+        SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        // searchView.setIconified(false);
+        //item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setActionView(searchView);
+        searchView.setQuery(articlesFragmentViewModel.getLastFilter(), false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                setFilter(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnClickListener(v -> {
+            //Toast.makeText(getContext(), "YEP", Toast.LENGTH_SHORT);
+        });
+    }
+
+    private void setFilter(String query) {
+
+        articlesFragmentViewModel.setFilterOnCurrentUrl(query);
+
+        // Fixes bug in which user switches tabs too quickly before
+        // refreshData() finishes executing.
+        articlesFragmentViewModel.resetResults();
+
+        // Update UI with no data to give feedback to user that
+        // it is reloading.
+        articlesAdapter.clear();
+
+        refreshData(); // So new data is loaded
+
+        // Reset offset
+        articlesFragmentViewModel.resetOffset();
+
+        // Set scroll position since refreshData() is initially only for the refresh feature.
+        // 1. Save new scroll position in view model
+        articlesFragmentViewModel.setScrollPosition(0);
+
+        // 2. Set new scroll position on view
+        setScrollPosition();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         articlesFragmentViewModel.setScrollPosition(getPosition());
@@ -157,7 +229,7 @@ public class ArticlesFragment extends Fragment {
 
     private void refreshData() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
+        client.get(articlesFragmentViewModel.getCurrentUrl(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -198,7 +270,7 @@ public class ArticlesFragment extends Fragment {
     // This method probably sends out a network request and appends new data items to your adapter.
     public void loadNextDataFromApi(int offset) {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(GAME_NEWS_URL + "&offset=" + offset, new JsonHttpResponseHandler() {
+        client.get(articlesFragmentViewModel.getCurrentUrl() + "&offset=" + offset, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -225,7 +297,7 @@ public class ArticlesFragment extends Fragment {
 
     public void fetchOldData() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(GAME_NEWS_URL, new JsonHttpResponseHandler() {
+        client.get(articlesFragmentViewModel.getCurrentUrl(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");

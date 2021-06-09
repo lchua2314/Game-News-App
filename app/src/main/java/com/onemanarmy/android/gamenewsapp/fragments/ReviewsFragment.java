@@ -3,10 +3,15 @@ package com.onemanarmy.android.gamenewsapp.fragments;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -21,6 +26,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.onemanarmy.android.gamenewsapp.BuildConfig;
 import com.onemanarmy.android.gamenewsapp.EndlessRecyclerViewScrollListener;
+import com.onemanarmy.android.gamenewsapp.MainActivity;
 import com.onemanarmy.android.gamenewsapp.R;
 import com.onemanarmy.android.gamenewsapp.adapters.ReviewsAdapter;
 import com.onemanarmy.android.gamenewsapp.models.Reviews;
@@ -63,6 +69,9 @@ public class ReviewsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Needed for search bar or else it won't show
+        setHasOptionsMenu(true);
 
         // Lookup the swipe container view
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -154,35 +163,18 @@ public class ReviewsFragment extends Fragment {
                 switch (position) {
                     case 0: // change to latest
                         Log.i(TAG, "case 0 - Newest = Latest");
-                        reviewsFragmentViewModel.setReviewUrlToLatest();
+                        reviewsFragmentViewModel.setCurrentUrlToLatest();
                         break;
                     case 1: // change to top
                         Log.i(TAG, "case 1 - Highest Rated = Top");
-                        reviewsFragmentViewModel.setReviewUrlToTop();
+                        reviewsFragmentViewModel.setCurrentUrlToTop();
                         break;
                     default: // change to lowest
                         Log.i(TAG, "default case - Lowest Rated = Low");
-                        reviewsFragmentViewModel.setReviewUrlToLow();
+                        reviewsFragmentViewModel.setCurrentUrlToLow();
                 }
-                // Fixes bug in which user switches tabs too quickly before
-                // refreshData() finishes executing.
-                reviewsFragmentViewModel.resetResults();
 
-                // Update UI with no data to give feedback to user that
-                // it is reloading.
-                reviewsAdapter.clear();
-
-                refreshData(); // So new data is loaded
-
-                // Reset offset
-                reviewsFragmentViewModel.resetOffset();
-
-                // Set scroll position since refreshData() is initially only for the refresh feature.
-                // 1. Save new scroll position in view model
-                reviewsFragmentViewModel.setScrollPosition(0);
-
-                // 2. Set new scroll position on view
-                setScrollPosition();
+                changeReview();
             }
 
             @Override
@@ -191,6 +183,78 @@ public class ReviewsFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
+
+        // Clear Query Button
+        MenuItem clearItem = menu.findItem(R.id.clear);
+
+        Button clearBtn = new Button(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+
+        //clearItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        clearItem.setActionView(clearBtn);
+
+        clearBtn.setText("Clear");
+        clearBtn.setBackgroundColor(getResources().getColor(R.color.dark_theme_blue));
+
+        clearBtn.setOnClickListener(v -> setFilter(""));
+        clearItem.setOnMenuItemClickListener(v -> {
+            setFilter("");
+            return false;
+        });
+
+        // Search Bar
+        MenuItem item = menu.findItem(R.id.search_bar);
+        SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        // searchView.setIconified(false);
+        //item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setActionView(searchView);
+        searchView.setQuery(reviewsFragmentViewModel.getLastFilter(), false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                setFilter(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnClickListener(v -> {
+            //Toast.makeText(getContext(), "YEP", Toast.LENGTH_SHORT);
+        });
+    }
+
+    private void setFilter(String query) {
+        reviewsFragmentViewModel.setFilterOnCurrentUrl(query);
+        changeReview();
+    }
+
+    private void changeReview() {
+        // Fixes bug in which user switches tabs too quickly before
+        // refreshData() finishes executing.
+        reviewsFragmentViewModel.resetResults();
+
+        // Update UI with no data to give feedback to user that
+        // it is reloading.
+        reviewsAdapter.clear();
+
+        refreshData(); // So new data is loaded
+
+        // Reset offset
+        reviewsFragmentViewModel.resetOffset();
+
+        // Set scroll position since refreshData() is initially only for the refresh feature.
+        // 1. Save new scroll position in view model
+        reviewsFragmentViewModel.setScrollPosition(0);
+
+        // 2. Set new scroll position on view
+        setScrollPosition();
     }
 
     @Override
@@ -220,7 +284,7 @@ public class ReviewsFragment extends Fragment {
 
     private void refreshData() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(reviewsFragmentViewModel.getReviewUrl(), new JsonHttpResponseHandler() {
+        client.get(reviewsFragmentViewModel.getCurrentUrl(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -261,7 +325,7 @@ public class ReviewsFragment extends Fragment {
     // This method probably sends out a network request and appends new data items to your adapter.
     public void loadNextDataFromApi(int offset) {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(reviewsFragmentViewModel.getReviewUrl() + "&offset=" + offset, new JsonHttpResponseHandler() {
+        client.get(reviewsFragmentViewModel.getCurrentUrl() + "&offset=" + offset, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
@@ -288,7 +352,7 @@ public class ReviewsFragment extends Fragment {
 
     private void fetchOldData() {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(reviewsFragmentViewModel.getReviewUrl(), new JsonHttpResponseHandler() {
+        client.get(reviewsFragmentViewModel.getCurrentUrl(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
