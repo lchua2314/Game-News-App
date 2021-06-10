@@ -85,6 +85,7 @@
         android:layout_toEndOf="@+id/ivPoster"
         android:textColor="@color/dark_theme_text_color"
         android:textSize="15sp"
+        android:maxLines="1"
         android:typeface="serif"
         tools:text="Eddie Makuch" />
 
@@ -98,6 +99,7 @@
         android:layout_marginBottom="4dp"
         android:textColor="@color/dark_theme_text_color"
         android:textSize="15sp"
+        android:maxLines="1"
         android:typeface="serif"
         tools:text="1 hour ago" />
 
