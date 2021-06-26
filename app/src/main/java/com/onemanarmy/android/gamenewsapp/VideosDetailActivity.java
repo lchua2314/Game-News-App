@@ -85,7 +85,7 @@ public class VideosDetailActivity extends AppCompatActivity {
             videoView.setMediaController(mediaControls);
 
             // set the uri of the video to be played
-            setVideoQuality();
+            setInitialVideoQuality();
 
         } catch (Exception e)
         {
@@ -168,22 +168,8 @@ public class VideosDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void setVideoQuality() {
+    private void setInitialVideoQuality() {
         Uri video = Uri.parse(videos.getHighUrlVideo());
-
-        /*
-        switch (quality) {
-            case "high_url":
-                video = Uri.parse(videos.getHighUrlVideo());
-                break;
-            case "hd_url":
-                video = Uri.parse(videos.getHdUrlVideo());
-                break;
-            default: // "low_url"
-                video = Uri.parse(videos.getLowUrlVideo());
-        }
-         */
-
         videoView.setVideoURI(video);
     }
 
