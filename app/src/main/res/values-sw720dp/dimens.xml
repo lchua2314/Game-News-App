@@ -24,9 +24,6 @@
     <dimen name="detail_video_resolution_text_size">30sp</dimen>
     <dimen name="detail_spinner_text_size">36sp</dimen>
 
-    <!-- Reviews Spinner -->
-    <dimen name="reviews_spinner_text_size">30sp</dimen>
-
     <!-- Items -->
     <dimen name="item_image_layout_width">240dp</dimen>
     <dimen name="item_image_layout_height">240dp</dimen>
@@ -44,6 +41,9 @@
     <dimen name="item_star_layout_height_horizontal">100dp</dimen>
     <dimen name="item_score">22sp</dimen>
     <dimen name="item_score_horizontal">30sp</dimen>
+
+    <!-- Items Review Spinner -->
+    <dimen name="item_review_spinner_dropdown_text_size">30sp</dimen>
     <dimen name="item_review_spinner_text_size">30sp</dimen>
     <dimen name="item_review_spinner_button_text_size">28sp</dimen>
     <dimen name="item_review_spinner_icon_size">48dp</dimen>

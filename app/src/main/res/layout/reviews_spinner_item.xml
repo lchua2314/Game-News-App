@@ -10,5 +10,5 @@
     android:textColor="@color/dark_theme_text_color"
     android:padding="10dp"
     android:textAlignment="center"
-    android:textSize="@dimen/reviews_spinner_text_size"
+    android:textSize="@dimen/item_review_spinner_dropdown_text_size"
     android:layout_margin="5dp"/>
