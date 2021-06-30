@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">15sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">18sp</dimen>
+
+    <dimen name="detail_title_text_size">30sp</dimen>
+    <dimen name="detail_image_layout_height">250dp</dimen>
+    <dimen name="detail_deck_text_size">18sp</dimen>
+    <dimen name="detail_authors_text_size">16sp</dimen>
+    <dimen name="detail_date_text_size">14sp</dimen>
+    <dimen name="detail_body_text_size">14sp</dimen>
+    <dimen name="detail_site_text_size">14sp</dimen>
+    <dimen name="detail_score_text_size">18sp</dimen>
+    <dimen name="detail_good_title_text_size">16sp</dimen>
+    <dimen name="detail_good_text_size">14sp</dimen>
+    <dimen name="detail_star_layout_width">169dp</dimen>
+    <dimen name="detail_star_layout_height">96dp</dimen>
+    <dimen name="detail_video_resolution_text_size">15sp</dimen>
+    <dimen name="detail_spinner_text_size">18sp</dimen>
+</resources>

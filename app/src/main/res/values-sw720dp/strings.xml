@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Game News App</string>
+    <string name="actionBarNameMainActivity">GameSpot</string>
+    <string name="actionBarNameArticlesDetailActivity">GameSpot Articles</string>
+    <string name="actionBarNameReviewsDetailActivity">GameSpot Reviews</string>
+    <string name="actionBarNameVideosDetailActivity">GameSpot Videos</string>
+</resources>
