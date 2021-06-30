@@ -2,6 +2,7 @@ package com.lauch.android.gamenewsapp.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -199,6 +200,14 @@ public class ReviewsFragment extends Fragment {
         clearItem.setActionView(clearBtn);
 
         clearBtn.setText("Clear");
+        /*
+        // Issue: currently sets text bigger but not other tabs
+        // Also, AppBar is not set for larger screens atm
+        // Set text size from dimen
+        clearBtn.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimension(R.dimen.item_review_spinner_button_text_size));
+         */
+
         clearBtn.setBackgroundColor(getResources().getColor(R.color.dark_theme_blue));
 
         clearBtn.setOnClickListener(v -> setFilter(""));

@@ -44,5 +44,8 @@
     <dimen name="item_star_layout_height_horizontal">50dp</dimen>
     <dimen name="item_score">11sp</dimen>
     <dimen name="item_score_horizontal">15sp</dimen>
+    <dimen name="item_review_spinner_text_size">15sp</dimen>
+    <dimen name="item_review_spinner_button_text_size">14sp</dimen>
+    <dimen name="item_review_spinner_icon_size">24dp</dimen>
 
 </resources>
