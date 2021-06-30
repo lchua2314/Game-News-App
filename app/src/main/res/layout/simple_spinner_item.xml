@@ -10,4 +10,4 @@
     android:textColor="@color/dark_theme_text_color"
     android:padding="10dp"
     android:textAlignment="center"
-    android:textSize="18sp" />
+    android:textSize="@dimen/detail_spinner_text_size" />

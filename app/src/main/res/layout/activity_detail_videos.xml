@@ -35,7 +35,7 @@
                 android:layout_height="0dp"
                 android:text="Video Resolution:"
                 android:textColor="@color/dark_theme_text_color"
-                android:textSize="15sp"
+                android:textSize="@dimen/detail_video_resolution_text_size"
                 android:padding="10dp"
                 android:layout_marginBottom="10dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="30sp"
+            android:textSize="@dimen/detail_title_text_size"
             android:textColor="@color/dark_theme_text_color"
             tools:text="Nomadland Wins Three Oscars At 93rd Academy Awards" />
 
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="18dp"
+            android:textSize="@dimen/detail_deck_text_size"
             android:textColor="@color/dark_theme_text_color"
             tools:text="Nomadland was the most-winning film for this year's Oscars." />
 
@@ -80,7 +80,7 @@
             android:id="@+id/tvPublishDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
+            android:textSize="@dimen/detail_date_text_size"
             android:layout_margin="10dp"
             android:textColor="@color/dark_theme_text_color"
             tools:text="1 hour ago" />
@@ -94,6 +94,7 @@
             android:layout_margin="10dp"
             android:background="@color/dark_theme_black"
             android:textColor="@color/dark_theme_text_color"
+            android:textSize="@dimen/detail_site_text_size"
             android:text="Go to webpage"
             android:autoLink="all"/>
     </LinearLayout>
