@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Navbar -->
     <dimen name="design_bottom_navigation_text_size" tools:override="true">15sp</dimen>
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">18sp</dimen>
+    <dimen name="bottom_navigation_icon_size" tools:override="true">24dp</dimen>
+    <dimen name="design_bottom_navigation_height" tools:override="true">54dp</dimen>
 
+    <!-- Detail Views -->
     <dimen name="detail_title_text_size">30sp</dimen>
     <dimen name="detail_image_layout_height">250dp</dimen>
     <dimen name="detail_deck_text_size">18sp</dimen>
