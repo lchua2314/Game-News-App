@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.law1111776.android.gamenewsapp">
+    package="com.lauch.android.gamenewsapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,14 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GameNewsApp">
-        <activity android:name=".ArticlesDetailActivity"
+        <activity android:name="com.lauch.android.gamenewsapp.ArticlesDetailActivity"
             android:label="@string/actionBarNameArticlesDetailActivity"></activity>
-        <activity android:name=".ReviewsDetailActivity"
+        <activity android:name="com.lauch.android.gamenewsapp.ReviewsDetailActivity"
             android:label="@string/actionBarNameReviewsDetailActivity"></activity>
-        <activity android:name=".VideosDetailActivity"
+        <activity android:name="com.lauch.android.gamenewsapp.VideosDetailActivity"
             android:label="@string/actionBarNameVideosDetailActivity"
             android:configChanges="orientation|screenSize"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.lauch.android.gamenewsapp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

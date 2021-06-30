@@ -1,4 +1,4 @@
-package com.law1111776.android.gamenewsapp;
+package com.lauch.android.gamenewsapp;
 
 import android.os.Bundle;
 
@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.law1111776.android.gamenewsapp.fragments.ArticlesFragment;
-import com.law1111776.android.gamenewsapp.fragments.ReviewsFragment;
-import com.law1111776.android.gamenewsapp.fragments.VideosFragment;
+import com.lauch.android.gamenewsapp.fragments.ArticlesFragment;
+import com.lauch.android.gamenewsapp.fragments.ReviewsFragment;
+import com.lauch.android.gamenewsapp.fragments.VideosFragment;
 
 
 public class MainActivity extends AppCompatActivity {

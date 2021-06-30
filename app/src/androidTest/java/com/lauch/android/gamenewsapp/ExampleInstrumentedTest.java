@@ -1,4 +1,4 @@
-package com.law1111776.android.gamenewsapp;
+package com.lauch.android.gamenewsapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

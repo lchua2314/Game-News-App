@@ -1,4 +1,4 @@
-package com.law1111776.android.gamenewsapp;
+package com.lauch.android.gamenewsapp;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;

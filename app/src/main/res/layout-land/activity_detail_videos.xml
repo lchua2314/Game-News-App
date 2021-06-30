@@ -19,7 +19,7 @@
         <VideoView
             android:id="@+id/vvVideo"
             android:transitionName="video"
-            android:layout_width="match_parent"
+            android:layout_width="500dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"

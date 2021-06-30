@@ -1,4 +1,4 @@
-package com.law1111776.android.gamenewsapp;
+package com.lauch.android.gamenewsapp;
 
 import org.junit.Test;
 

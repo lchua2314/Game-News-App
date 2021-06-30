@@ -1,8 +1,8 @@
-package com.law1111776.android.gamenewsapp.viewmodels;
+package com.lauch.android.gamenewsapp.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 
-import com.law1111776.android.gamenewsapp.BuildConfig;
+import com.lauch.android.gamenewsapp.BuildConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;

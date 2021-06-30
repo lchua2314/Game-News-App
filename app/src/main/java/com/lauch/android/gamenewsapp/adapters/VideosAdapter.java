@@ -1,4 +1,4 @@
-package com.law1111776.android.gamenewsapp.adapters;
+package com.lauch.android.gamenewsapp.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,9 +17,9 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.law1111776.android.gamenewsapp.R;
-import com.law1111776.android.gamenewsapp.VideosDetailActivity;
-import com.law1111776.android.gamenewsapp.models.Videos;
+import com.lauch.android.gamenewsapp.R;
+import com.lauch.android.gamenewsapp.VideosDetailActivity;
+import com.lauch.android.gamenewsapp.models.Videos;
 
 import org.parceler.Parcels;
 

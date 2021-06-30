@@ -1,4 +1,4 @@
-package com.law1111776.android.gamenewsapp.models;
+package com.lauch.android.gamenewsapp.models;
 
 import android.text.format.DateUtils;
 

@@ -1,4 +1,4 @@
-package com.law1111776.android.gamenewsapp;
+package com.lauch.android.gamenewsapp;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.law1111776.android.gamenewsapp.models.Articles;
+import com.lauch.android.gamenewsapp.models.Articles;
 
 import org.parceler.Parcels;
 

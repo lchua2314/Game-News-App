@@ -1,4 +1,4 @@
-package com.law1111776.android.gamenewsapp.fragments;
+package com.lauch.android.gamenewsapp.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -24,13 +24,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.law1111776.android.gamenewsapp.BuildConfig;
-import com.law1111776.android.gamenewsapp.EndlessRecyclerViewScrollListener;
-import com.law1111776.android.gamenewsapp.MainActivity;
-import com.law1111776.android.gamenewsapp.R;
-import com.law1111776.android.gamenewsapp.adapters.ReviewsAdapter;
-import com.law1111776.android.gamenewsapp.models.Reviews;
-import com.law1111776.android.gamenewsapp.viewmodels.ReviewsFragmentViewModel;
+import com.lauch.android.gamenewsapp.BuildConfig;
+import com.lauch.android.gamenewsapp.EndlessRecyclerViewScrollListener;
+import com.lauch.android.gamenewsapp.MainActivity;
+import com.lauch.android.gamenewsapp.R;
+import com.lauch.android.gamenewsapp.adapters.ReviewsAdapter;
+import com.lauch.android.gamenewsapp.models.Reviews;
+import com.lauch.android.gamenewsapp.viewmodels.ReviewsFragmentViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
