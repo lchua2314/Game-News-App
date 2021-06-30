@@ -35,14 +35,14 @@
     <dimen name="item_authors_text_size">16.5sp</dimen>
     <dimen name="item_date_text_size">16.5sp</dimen>
     <dimen name="item_title_text_size_horizontal">27sp</dimen>
-    <dimen name="item_deck_text_size_horizontal">13sp</dimen>
-    <dimen name="item_authors_text_size_horizontal">15sp</dimen>
-    <dimen name="item_date_text_size_horizontal">15sp</dimen>
-    <dimen name="item_star_layout_width">35dp</dimen>
-    <dimen name="item_star_layout_height">35dp</dimen>
-    <dimen name="item_star_layout_width_horizontal">50dp</dimen>
-    <dimen name="item_star_layout_height_horizontal">50dp</dimen>
+    <dimen name="item_deck_text_size_horizontal">19.5sp</dimen>
+    <dimen name="item_authors_text_size_horizontal">22.5sp</dimen>
+    <dimen name="item_date_text_size_horizontal">22.5sp</dimen>
+    <dimen name="item_star_layout_width">52.5dp</dimen>
+    <dimen name="item_star_layout_height">52.5dp</dimen>
+    <dimen name="item_star_layout_width_horizontal">75dp</dimen>
+    <dimen name="item_star_layout_height_horizontal">75dp</dimen>
     <dimen name="item_score">16.5sp</dimen>
-    <dimen name="item_score_horizontal">15sp</dimen>
+    <dimen name="item_score_horizontal">22.5sp</dimen>
 
 </resources>
