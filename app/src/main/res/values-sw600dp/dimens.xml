@@ -23,4 +23,26 @@
     <dimen name="detail_star_layout_height">144dp</dimen>
     <dimen name="detail_video_resolution_text_size">22.5sp</dimen>
     <dimen name="detail_spinner_text_size">27sp</dimen>
+
+    <!-- Reviews Spinner -->
+    <dimen name="reviews_spinner_text_size">22.5sp</dimen>
+
+    <!-- Items -->
+    <dimen name="item_image_layout_width">180dp</dimen>
+    <dimen name="item_image_layout_height">180dp</dimen>
+    <dimen name="item_title_text_size">21sp</dimen>
+    <dimen name="item_deck_text_size">16.5sp</dimen>
+    <dimen name="item_authors_text_size">16.5sp</dimen>
+    <dimen name="item_date_text_size">16.5sp</dimen>
+    <dimen name="item_title_text_size_horizontal">27sp</dimen>
+    <dimen name="item_deck_text_size_horizontal">13sp</dimen>
+    <dimen name="item_authors_text_size_horizontal">15sp</dimen>
+    <dimen name="item_date_text_size_horizontal">15sp</dimen>
+    <dimen name="item_star_layout_width">35dp</dimen>
+    <dimen name="item_star_layout_height">35dp</dimen>
+    <dimen name="item_star_layout_width_horizontal">50dp</dimen>
+    <dimen name="item_star_layout_height_horizontal">50dp</dimen>
+    <dimen name="item_score">16.5sp</dimen>
+    <dimen name="item_score_horizontal">15sp</dimen>
+
 </resources>

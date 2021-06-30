@@ -145,7 +145,7 @@ public class ReviewsFragment extends Fragment {
 
         String[] items = new String[]{"Newest", "Highest Rated", "Lowest Rated"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.articles_spinner_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.reviews_spinner_item, items);
 
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
