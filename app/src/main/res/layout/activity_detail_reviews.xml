@@ -204,6 +204,7 @@ Nomadland was the most-winning film for this year's Oscars." />
             android:layout_margin="10dp"
             android:background="@color/dark_theme_black"
             android:textColor="@color/dark_theme_text_color"
+            android:textSize="@dimen/detail_site_text_size"
             android:text="Go to webpage"
             android:autoLink="all"/>
     </LinearLayout>

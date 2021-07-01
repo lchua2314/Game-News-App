@@ -15,7 +15,7 @@ Scrolls through various video articles and movie news articles, the latest artic
 - **Story:** Displays the latest articles based on video articles and movies, and the top and latest articles reviews. The user can decide what articles, reviews, or videos to view in more detail.
 - **Market:** Any individual could use this app, but the majority of users will most likely be gamers.
 - **Habit:** This app could be used as often or unoften as the user wanted depending on how often their interest in the latest articles articles and reviews.
-- **Scope:** The app will be left on GitHub without a developer API key because GameSpot's API terms of service does not allow the app on Google Play.
+- **Scope:** The app will be left on GitHub without a developer API key because GameSpot's API terms of service does not allow the app to be published on Google Play.
 
 ### Demo
 #### (6/30/21) User and Stretch Stories Completed
