@@ -15,11 +15,19 @@ Scrolls through various video articles and movie news articles, the latest artic
 - **Story:** Displays the latest articles based on video articles and movies, and the top and latest articles reviews. The user can decide what articles, reviews, or videos to view in more detail.
 - **Market:** Any individual could use this app, but the majority of users will most likely be gamers.
 - **Habit:** This app could be used as often or unoften as the user wanted depending on how often their interest in the latest articles articles and reviews.
-- **Scope:** The app will attempt to be placed on the Google Play Store for non-commercial use, however after that the app will not receive updates due to GameSpot's API terms of use denying users of making a competing product.
+- **Scope:** The app will be left on GitHub without a developer API key because GameSpot's API terms of service does not allow the app on Google Play.
 
 ### Demo
-#### (5/6/21) User Stories Completed
-<img src="walkthroughUserStoriesCompleted.gif">
+#### (6/30/21) User and Stretch Stories Completed
+
+##### Pixel 2 Emulator
+<img src="walkthroughPixel2.gif">
+
+##### Nexus 7" Tablet Emulator
+<img src="walkthroughNexus7Tablet.gif">
+
+##### Nexus 10" Tablet Emulator
+<img src="walkthroughNexus10Tablet.gif">
 
 ## Product Spec
 ### 1. User Stories (Required and Optional)
@@ -38,11 +46,11 @@ Scrolls through various video articles and movie news articles, the latest artic
 - [X] Infinite pagination
 - [X] User can select different quality videos in the Videos Screen.
 - [X] Combine the "Latest Reviews" and "Top Reviews" tabs into one and allow user to have a dropdown to sort the reviews.
-- [ ] Search bar for each category.
-- [ ] Favorites tab that can store any articles/reviews/videos that the user can store on their device or a backend database.
-- [ ] Settings tab that the user can set certain settings such as light/dark mode, text font, themes, etc.
+- [X] Search bar for each category.
+- [X] Support for different screen sizes
 
-### 2. Screen Archetypes
+### 2. Screen Archetypes 
+#### (NOTE: Latest Game Reviews and Top Game Reviews are now combined)
 
 * Articles Feed Screen
    * Calls a GET request to obtain and display the latest 20 articles' title, description/deck, author name, and time ago since publish time.
@@ -70,6 +78,7 @@ Scrolls through various video articles and movie news articles, the latest artic
    * User can press a button to open a web browser and goes to the GameSpot's source of the displayed video.
 
 ### 3. Navigation
+#### (NOTE: Latest Game Reviews and Top Game Reviews are now combined)
 
 **Tab Navigation** (Tab to Screen)
 
